@@ -1,6 +1,7 @@
 import * as E from "fp-ts/Either";
 import { Either } from 'fp-ts/lib/Either';
-import { ArrayOrElement, ValueOrFactory } from "./internal";
+import { ValueOrFactory } from "value-or-factory";
+import { ArrayOrElement } from "./internal";
 
 /**
  * A mapper converts a value from one type to another.

@@ -1,8 +1,8 @@
 import { flow } from "fp-ts/function"
+import { callOrGet, ValueOrFactory } from "value-or-factory"
 import { buildError, ErrorFactory, Mapper, Result } from "./base"
 import { failure, flatMap, of } from "./core"
 import { exec } from "./exec"
-import { callOrGet, ValueOrFactory } from "./internal"
 import { tryCatch } from "./try-catch"
 
 /**

@@ -1,6 +1,6 @@
+import { callOrGet, ValueOrFactory } from "value-or-factory"
 import { buildError, ErrorFactory, Mapper, Result } from "./base"
 import { failure, flatMap, map } from "./core"
-import { callOrGet, ValueOrFactory } from "./internal"
 
 /**
  * Returns the same value every time.
