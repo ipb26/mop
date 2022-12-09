@@ -1,5 +1,6 @@
 {
   "name": "mop",
+  "license": "MIT",
   "scripts": {
     "build": "tsc"
   },
