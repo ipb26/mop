@@ -2,7 +2,8 @@
   "name": "mop",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "watch": "nodemon -e '*' --watch src --watch package.json --watch tsconfig.json --exec yarn build"
   },
   "module": "dist/index.js",
   "main": "dist/index.js",
