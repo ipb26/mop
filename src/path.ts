@@ -3,7 +3,7 @@ import { mapFail } from "./core"
 import { ArrayOrElement } from "./internal"
 
 /**
- * Add a path tree to all errors.
+ * Prepend a path tree to all errors.
  */
 export const path = (paths: ArrayOrElement<ErrorPath>) => mapFail(errors => {
     return errors.map(error => ({ ...error, path: [...Array.isArray(paths) ? paths : [paths], ...error.path ?? []] }))

@@ -1,6 +1,4 @@
 
-// Array
-
 import { flow } from "fp-ts/function"
 import { ErrorFactory, Mapper } from "./base"
 import { map } from "./core"
@@ -38,7 +36,4 @@ export const last = <I>() => at<I>(-1)
 /**
  * Converts input to an array, if it is not currently an array.
  */
-export const arrayOrElement = <T>() => flow(
-    typed<T | T[]>,
-    map(value => Array.isArray(value) ? value : [value])
-)
+export const arrayOrElement = <T>() => flow(typed<T | T[]>, map(value => Array.isArray(value) ? value : [value]))
