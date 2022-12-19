@@ -1,8 +1,8 @@
-import * as E from "fp-ts/Either";
-import objectInspect from "object-inspect";
-import { buildError, ErrorFactory } from "./base";
-import { flatMap } from "./core";
-import { testWith } from "./test";
+import * as E from "fp-ts/Either"
+import objectInspect from "object-inspect"
+import { buildError, ErrorFactory } from "./base"
+import { flatMap } from "./core"
+import { testWith } from "./test"
 
 /**
  * Tries to execute a function, catching errors.
