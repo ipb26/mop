@@ -1,5 +1,5 @@
 
-import { flow, pipe } from "fp-ts/function"
+import { flow } from "fp-ts/function"
 import { mapObjIndexed } from "ramda"
 import { cast, combineObject, constant, exec, InputType, map, Mapper, noOp, OutputType, path, split, swap, typed } from "."
 
@@ -7,37 +7,22 @@ type OptionalKeys<S> = { [K in keyof S]: undefined extends S[K] ? K : never }[ke
 type RequiredKeys<S> = { [K in keyof S]: undefined extends S[K] ? never : K }[keyof S]
 
 export type ObjectSchema = { [K: string]: Mapper<never, unknown> }
-type SchemaInputs<S extends ObjectSchema> = { [K in RequiredKeys<{ [K in keyof S]: InputType<S[K]> }>]: InputType<S[K]> } & { [K in OptionalKeys<{ [K in keyof S]: InputType<S[K]> }>]?: InputType<S[K]> }
+export type ObjectOutput<S extends ObjectSchema> = { [K in keyof S]: OutputType<S[K]> }
+export type ObjectInput<S extends ObjectSchema> = { [K in RequiredKeys<{ [K in keyof S]: InputType<S[K]> }>]: InputType<S[K]> } & { [K in OptionalKeys<{ [K in keyof S]: InputType<S[K]> }>]?: InputType<S[K]> }
 
 export function object<S extends ObjectSchema>(schema: S) {
     return flow(
-        typed<SchemaInputs<S>>,
-        map(input => pipe(schema, mapObjIndexed((mapper, key) => exec(input[key as never] as never, mapper)))),
+        typed<ObjectInput<S>>,
+        map(input => mapObjIndexed((mapper, key) => exec(input[key as never] as never, mapper), schema)),
         combineObject(),
-        //buildObject(pipe(schema, mapObjIndexed((value, key) => flow(pick(key as never), value)))),
-        cast<{ [K in keyof S]: OutputType<S[K]> }>
+        cast<ObjectOutput<S>>
     )
-    /*
-    return flow(
-        map((value: SchemaInputs<S>) => {
-            const results = pipe(
-                schema,
-                mapObjIndexed((mapper, key) => {
-                    //@ts-ignore
-                    return exec(value[key], mapper)
-                })
-            )
-            return results as { [K in keyof S]: Result<OutputType<S[K]>> }
-        }),
-        combineObject()
-    )*/
 }
-
 
 /**
  * Plucks a single key from an object.
  */
-export const pick = <I, K extends keyof I>(key: K) => map<I, I[K]>(i => i[key])
+export const pick = <I, K extends keyof I>(key: K) => flow(typed<I>, map(i => i[key]))
 
 /**
 type CustomSchema<I> = { [K: string]: Mapper<I, unknown> }
@@ -71,7 +56,7 @@ export const onKey = <I extends {}, K extends (keyof I) & string, A>(key: K, map
                 pick(key),
                 mapper,
                 path(key),
-                map(_ => ({ [key]: _ } as Record<K, A>))
+                map(_ => <Record<K, A>>{ [key]: _ })
             )
         ),
         merge()
@@ -93,7 +78,7 @@ export const moveKey = <I, K extends keyof I, N extends string | number | symbol
     const { [oldKey]: _, ...rest } = i
     return {
         ...rest,
-        ...({ [newKey]: _ } as Record<N, I[K]>)
+        ...<Record<N, I[K]>>{ [newKey]: _ }
     }
 })
 

@@ -2,6 +2,8 @@
 import objectInspect from "object-inspect";
 import { MapError } from "./base";
 
+export type ErrorFormatter = (error: MapError) => string
+
 /**
  * Utility to format an error path.
  */
@@ -27,8 +29,11 @@ export const joinMessages = (messages: string[]) => {
 /**
  * Prints an error into a message string. Replaces {value} with value. Also appends the value to the end if includeValues is true.
  */
-export const printMessage = (error: MapError, includeValues = false) => {
-    return error.message.replace("{value}", objectInspect(error.value)) + (includeValues ? " (" + objectInspect(error.value) + ")" : "")
+//TODO replace w ErrorFormatter
+export const printMessage = (includeValues = false) => {
+    return (error: MapError) => {
+        return error.message.replace("{value}", objectInspect(error.value)) + (includeValues ? " (" + objectInspect(error.value) + ")" : "")
+    }
 }
 
 /**

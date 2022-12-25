@@ -16,6 +16,11 @@ export const clone = <I>() => map((_: I) => [_, _] as const)
 export const split = <I, O>(mapper: Mapper<I, O>) => flow(clone<I>(), on2(mapper))
 
 /**
+ * Split a value into a tuple using another mapper on the second half only.
+ */
+export const bisect = <I, A, B>(mapper1: Mapper<I, A>, mapper2: Mapper<I, B>) => flow(clone<I>(), on1(mapper1), on2(mapper2))
+
+/**
  * Swaps a tuple's elements.
  */
 export const swap = <A, B>() => map((_: readonly [A, B]) => [_[1], _[0]] as const)

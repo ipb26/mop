@@ -1,5 +1,5 @@
+import * as E from "fp-ts/lib/Either";
 import { Either } from 'fp-ts/lib/Either';
-import { E } from "namespaces";
 import { ValueOrFactory } from "value-or-factory";
 import { ArrayOrElement } from "./internal";
 

@@ -1,24 +1,24 @@
 {
-  "name": "mop",
-  "license": "MIT",
-  "scripts": {
-    "build": "tsc",
-    "watch": "nodemon -e '*' --watch src --watch package.json --watch tsconfig.json --exec yarn build"
-  },
-  "module": "dist/index.js",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "dependencies": {
-    "fp-ts": "^2.13.1",
-    "object-inspect": "^1.12.2",
-    "ramda": "^0.28.0",
-    "value-or-factory": "^0.0.1"
-  },
-  "devDependencies": {
-    "@types/object-inspect": "^1.8.1",
-    "@types/ramda": "^0.28.20"
-  },
-  "files": [
-    "dist"
-  ]
+    "name": "mop",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc",
+        "watch": "nodemon -e '*' --watch src --watch package.json --watch tsconfig.json --exec yarn build"
+    },
+    "module": "dist/index.js",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "dependencies": {
+        "fp-ts": "^2.13.1",
+        "object-inspect": "^1.12.2",
+        "ramda": "^0.28.0",
+        "value-or-factory": "^0.0.1"
+    },
+    "devDependencies": {
+        "@types/object-inspect": "^1.8.1",
+        "@types/ramda": "^0.28.20"
+    },
+    "files": [
+        "dist"
+    ]
 }
