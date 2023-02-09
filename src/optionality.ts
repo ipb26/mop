@@ -12,9 +12,9 @@ import { tryCatch } from "./try-catch"
  */
 export const req = <T>(error: ErrorFactory<T | undefined | null> = "This value is required"): Mapper<T | undefined | null, T> => flatMap(value => {
     if (value === undefined || value === null) {
-        return failure(buildError(error, value));
+        return failure(buildError(error, value))
     }
-    return of(value);
+    return of(value)
 })
 
 /**
@@ -33,7 +33,7 @@ export const orNull = <I>(result: Result<I | null | undefined>) => or<I, null>(n
 
 /**
  * Wraps a mapper so that it skips empty values.
- * @param mapper Mopper
+ * @param mapper Mapper
  * @returns New mapper that skips empty values.
  */
 export const maybe = <I, O>(mapper: Mapper<I, O>) => flatMap<I | undefined | null, O | undefined | null>(value => {
