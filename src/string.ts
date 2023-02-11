@@ -2,7 +2,7 @@
 // String
 
 import { flow } from "fp-ts/function";
-import { ErrorFactory, filter, map, maybe, maybeOrNull, maybeOrUndefined, req, test } from ".";
+import { ErrorFactory, filter, map, maybe, orNull, orUndefined, req, test } from ".";
 
 /**
  * Creates a mapper that trims a string.
@@ -31,11 +31,11 @@ export const maybeString = () => maybe(blankToEmpty())
 /**
  * Creates a mapper that turns blank strings into undefined.
  */
-export const maybeStringOrUndefined = () => maybeOrUndefined(blankToEmpty())
+export const maybeStringOrUndefined = () => flow(maybeString(), orUndefined)
 /**
  * Creates a mapper that turns blank strings into undefined.
  */
-export const maybeStringOrNull = () => maybeOrNull(blankToEmpty())
+export const maybeStringOrNull = () => flow(maybeString(), orNull)
 
 /**
  * Mappers for start and end with.

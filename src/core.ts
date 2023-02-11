@@ -8,6 +8,11 @@ import { MapError, Mapper, Result } from "./base"
 export const failure = E.left<MapError[], never>
 
 /**
+ * Creates a result from a value.
+ */
+export const success = <T>(value: T) => E.right<MapError[], T>(value)
+
+/**
  * Executes a simple operation that cannot fail (unlike flatMap).
  */
 export const map = <I, O>(func: (i: I) => O): (result: Result<I>) => Result<O> => E.map(func)
