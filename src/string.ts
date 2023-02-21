@@ -40,10 +40,10 @@ export const maybeStringOrNull = () => flow(maybeString(), orNull)
 /**
  * Mappers for start and end with.
  */
-export const startsWith = (match: string, error: ErrorFactory<string> = "Must start with \"" + match + "\".") => test(_ => _.startsWith(match), error)
-export const endsWith = (match: string, error: ErrorFactory<string> = "Must end with \"" + match + "\".") => test(_ => _.endsWith(match), error)
-export const startsWithCi = (match: string, error: ErrorFactory<string> = "Must start with \"" + match + "\".") => test(_ => _.toLowerCase().startsWith(match.toLowerCase()), error)
-export const endsWithCi = (match: string, error: ErrorFactory<string> = "Must end with \"" + match + "\".") => test(_ => _.toLowerCase().endsWith(match.toLowerCase()), error)
+export const startsWith = (match: string, error: ErrorFactory<string> = "Must start with \"" + match + "\"") => test(_ => _.startsWith(match), error)
+export const endsWith = (match: string, error: ErrorFactory<string> = "Must end with \"" + match + "\"") => test(_ => _.endsWith(match), error)
+export const startsWithCi = (match: string, error: ErrorFactory<string> = "Must start with \"" + match + "\"") => test(_ => _.toLowerCase().startsWith(match.toLowerCase()), error)
+export const endsWithCi = (match: string, error: ErrorFactory<string> = "Must end with \"" + match + "\"") => test(_ => _.toLowerCase().endsWith(match.toLowerCase()), error)
 
 /**
  * Mappers for common regexes.
