@@ -1,19 +1,29 @@
 
 import { flow } from "fp-ts/function"
 import { mapObjIndexed } from "ramda"
-import { cast, combineObject, constant, exec, InputType, map, Mapper, noOp, OutputType, path, split, swap, typed } from "."
+import { cast, combineObject, constant, exec, InputType, map, Mapper, noOp, OutputType, path, Result, split, swap, typed } from "."
 
 type OptionalKeys<S> = { [K in keyof S]: undefined extends S[K] ? K : never }[keyof S]
 type RequiredKeys<S> = { [K in keyof S]: undefined extends S[K] ? never : K }[keyof S]
 
 export type ObjectSchema = { [K: string]: Mapper<never, unknown> }
 export type ObjectOutput<S extends ObjectSchema> = { [K in keyof S]: OutputType<S[K]> }
+export type RawObjectOutput<S extends ObjectSchema> = { [K in keyof S]: Result<S[K]> }
 export type ObjectInput<S extends ObjectSchema> = { [K in RequiredKeys<{ [K in keyof S]: InputType<S[K]> }>]: InputType<S[K]> } & { [K in OptionalKeys<{ [K in keyof S]: InputType<S[K]> }>]?: InputType<S[K]> }
 
-export function object<S extends ObjectSchema>(schema: S) {
+export function rawObject<S extends ObjectSchema>(schema: S) {
     return flow(
         typed<ObjectInput<S>>,
         map(input => mapObjIndexed((mapper, key) => exec(input[key as never] as never, mapper), schema)),
+        cast<RawObjectOutput<S>>
+    )
+}
+
+export function object<S extends ObjectSchema>(schema: S) {
+    return flow(
+        rawObject(schema),
+        //typed<ObjectInput<S>>,
+        //map(input => mapObjIndexed((mapper, key) => exec(input[key as never] as never, mapper), schema)),
         combineObject(),
         cast<ObjectOutput<S>>
     )

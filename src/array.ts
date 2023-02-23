@@ -10,7 +10,8 @@ import { cast, typed } from "./types"
 /**
  * Maps an array using a mapper.
  */
-export const array = <I, O>(mapper: (index: number) => Mapper<I, O>) => loop(index => flow(mapper(index), path(index)))
+export const array = <I, O>(mapper: Mapper<I, O>) => loop(index => flow(mapper, path(index)))
+export const arrayByIndex = <I, O>(mapper: (index: number) => Mapper<I, O>) => loop(index => flow(mapper(index), path(index)))
 
 /**
  * Creates a mapper that validates that an array has the specified number of items.
