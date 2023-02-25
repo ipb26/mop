@@ -1,18 +1,18 @@
 
 import objectInspect from "object-inspect";
-import { MapError } from "./base";
-import { arrayOrElement } from "./internal";
+import { ErrorPath, MapError } from "./base";
+import { ArrayOrElement, arrayOrElement } from "./internal";
 
 export type ErrorFormatter = (errors: MapError | MapError[]) => string
 
 /**
  * Utility to format an error path.
  */
-export const formatPath = (path?: (string | number)[]) => {
+export const formatPath = (path?: ArrayOrElement<ErrorPath>) => {
     if (path === undefined) {
         return ""
     }
-    return path.map((value, index) => typeof value === "string" ? ((index > 0) ? "." : "") + value : "[" + value + "]").join("")
+    return arrayOrElement(path).map((value, index) => typeof value === "string" ? ((index > 0) ? "." : "") + value : "[" + value + "]").join("")
 }
 
 /**
@@ -20,9 +20,10 @@ export const formatPath = (path?: (string | number)[]) => {
  */
 export const formatError = (includeValues = false) => {
     return (errors: MapError | MapError[]) => {
+        console.log("TODO", errors)
         return arrayOrElement(errors)
             .map(_ => _.message.replace("{value}", objectInspect(_.value)) + (includeValues ? " (" + objectInspect(_.value) + ")" : ""))
-            .join(", ") + "."
+            .join(", ")
     }
 }
 

@@ -16,7 +16,7 @@ export type Result<T> = Either<MapError[], T>
 /**
  * An error associated with a mapping attempt.
  */
-export type MapError = { path?: ErrorPath[], message: string, value?: unknown }
+export type MapError = { path?: ArrayOrElement<ErrorPath>, message: string, value?: unknown }
 
 /**
  * Part of an error path.
