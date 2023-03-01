@@ -7,6 +7,10 @@ import { errorAt, ErrorFormatter, formatError, formatPath, mapFail, of, orElse }
 // Formatting and errors. 
 
 /**
+ * Turns the errors into a list of error messages, or undefined if there are no errors.
+ */
+export const throwError = (formatter: ErrorFormatter = formatError(false)) => flow(singleError(formatter), E.mapLeft(_ => { throw new globalThis.Error(_) }), toUnion)
+/**
  * Turns the errors into a map of errors, where the key is the formatted path and the value is an array of errors for each key.
  */
 export const groupErrors = () => mapFail(groupBy(_ => formatPath(_.path)))
@@ -33,11 +37,11 @@ export const valueOnly = () => flow(E.mapLeft(_ => undefined), toUnion)
 /**
  * Returns only errors. If there are no errors, the value is undefined.
  */
-export const errorsOnly = () => flow(map(_ => undefined), toUnion)
+export const errorMessagesOnly = (formatter: ErrorFormatter = formatError(false)) => flow(messageList(formatter), map(_ => undefined), toUnion)
 /**
- * Turns the errors into a list of error messages, or undefined if there are no errors.
+ * Returns only errors. If there are no errors, the value is undefined.
  */
-export const throwError = (formatter: ErrorFormatter = formatError(false)) => flow(singleError(formatter), E.mapLeft(_ => { throw new globalThis.Error(_) }), toUnion)
+export const errorsOnly = () => flow(map(_ => undefined), toUnion)
 /**
  * Turn failed chains into undefined values with no errors.
  */

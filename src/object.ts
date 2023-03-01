@@ -1,7 +1,7 @@
 
 import { flow } from "fp-ts/function"
 import { mapObjIndexed } from "ramda"
-import { cast, combineObject, constant, exec, InputType, map, Mapper, noOp, OutputType, path, Result, split, swap, typed } from "."
+import { cast, constant, exec, flattenObject, InputType, map, Mapper, noOp, OutputType, path, Result, split, swap, typed } from "."
 
 type OptionalKeys<S> = { [K in keyof S]: undefined extends S[K] ? K : never }[keyof S]
 type RequiredKeys<S> = { [K in keyof S]: undefined extends S[K] ? never : K }[keyof S]
@@ -24,7 +24,7 @@ export function object<S extends ObjectSchema>(schema: S) {
         rawObject(schema),
         //typed<ObjectInput<S>>,
         //map(input => mapObjIndexed((mapper, key) => exec(input[key as never] as never, mapper), schema)),
-        combineObject(),
+        flattenObject(),
         cast<ObjectOutput<S>>
     )
 }
@@ -33,18 +33,6 @@ export function object<S extends ObjectSchema>(schema: S) {
  * Plucks a single key from an object.
  */
 export const pick = <I, K extends keyof I>(key: K) => flow(typed<I>, map(i => i[key]))
-
-/**
-type CustomSchema<I> = { [K: string]: Mapper<I, unknown> }
-
- * Build an object from an object of mappers, each of which is applied to the input object.
-
-export const buildObject = <S extends CustomSchema<I>, I>(schema: S) => flow(
-    typed<I>,
-    map(input => pipe(schema, mapObjIndexed(mapper => exec(input, mapper)))),
-    combineObject(),
-    cast<{ [K in keyof S]: OutputType<S[K]> }>,
-) */
 
 /**
  * Generate a mapper that turns a tuple of two objects into one object.

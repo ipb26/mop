@@ -1,6 +1,6 @@
 import { flow } from "fp-ts/function";
 import { exec, map, Mapper } from ".";
-import { combineArray } from "./combine";
+import { flattenArray } from "./flatten";
 
 /**
  * A union between a type and an array of the type.
@@ -34,6 +34,6 @@ export function regexFromString(regex: string) {
 export function loop<I, O>(mapper: (index: number) => Mapper<I, O>) {
     return flow(
         map((input: I[]) => input.map((value, index) => exec(value, mapper(index)))),
-        combineArray()
+        flattenArray()
     )
 }

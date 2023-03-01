@@ -1,6 +1,4 @@
 
-// Checkers
-
 import { ErrorFactory } from "./base"
 import { test } from "./test"
 

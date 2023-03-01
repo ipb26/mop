@@ -7,7 +7,7 @@ import { loop } from "./internal"
 /**
  * Combines an object of results into a result of an object.
  */
-export const combineObject = <I extends Record<string, Result<unknown>>>() => {
+export const flattenObject = <I extends Record<string, Result<unknown>>>() => {
     return flow(
         map(Object.entries),
         loop(() => chain(value => on2(flow(flat(), path(value[0]))))),
@@ -19,7 +19,7 @@ export const combineObject = <I extends Record<string, Result<unknown>>>() => {
 /**
  * Combines an array of results into a result of an array.
  */
-export const combineArray = <T>() => flow(
+export const flattenArray = <T>() => flow(
     typed<Result<T>[]>,
     flatMap(input => {
         const separated = separate(input)
