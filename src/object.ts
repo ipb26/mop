@@ -37,7 +37,7 @@ export const pick = <I, K extends keyof I>(key: K) => flow(typed<I>, map(i => i[
 /**
  * Generate a mapper that turns a tuple of two objects into one object.
  */
-export const merge = <A extends {}, B extends {}>() => map((value: readonly [A, B]) => {
+export const merge = <A extends {}, B extends {}>() => map((value: readonly [A, B]): Omit<A, keyof B> & B => {
     return {
         ...value[0],
         ...value[1],
