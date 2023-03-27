@@ -18,7 +18,7 @@ export const split = <I, O>(mapper: Mapper<I, O>) => flow(clone<I>(), on2(mapper
 /**
  * Split a value into a tuple using another mapper on the second half only.
  */
-export const bisect = <I, A, B>(mapper1: Mapper<I, A>, mapper2: Mapper<I, B>) => flow(clone<I>(), on1(mapper1), on2(mapper2))
+export const bisect = <IA, IB, OA, OB>(mapper1: Mapper<IA, OA>, mapper2: Mapper<IB, OB>) => flow(clone<IA & IB>(), on1(mapper1), on2(mapper2))
 
 /**
  * Swaps a tuple's elements.
