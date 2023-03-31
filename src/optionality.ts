@@ -10,7 +10,7 @@ import { tryCatch } from "./try-catch"
  * @param message An optional custom error message.
  * @returns A mapper that returns a value or error if undefined.
  */
-export const req = <T>(error: ErrorFactory<T | undefined | null> = "This value is required"): Mapper<T | undefined | null, T> => flatMap(value => {
+export const req = <T = unknown>(error: ErrorFactory<T | undefined | null> = "This value is required"): Mapper<T | undefined | null, T> => flatMap(value => {
     if (value === undefined || value === null) {
         return failure(buildError(error, value))
     }

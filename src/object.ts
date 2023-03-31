@@ -1,15 +1,14 @@
 
 import { flow } from "fp-ts/function"
-import { mapObjIndexed } from "ramda"
+import { mapObjIndexed, pick as ramdaPick } from "ramda"
 import { cast, constant, exec, flattenObject, InputType, map, Mapper, noOp, OutputType, path, Result, split, swap, typed } from "."
 
 type OptionalKeys<S> = { [K in keyof S]: undefined extends S[K] ? K : never }[keyof S]
 type RequiredKeys<S> = { [K in keyof S]: undefined extends S[K] ? never : K }[keyof S]
 
 export type ObjectSchema = { [K: string]: Mapper<never, unknown> }
-export type ObjectOutput<S extends ObjectSchema> = { [K in keyof S]: OutputType<S[K]> }
+
 export type RawObjectOutput<S extends ObjectSchema> = { [K in keyof S]: Result<S[K]> }
-export type ObjectInput<S extends ObjectSchema> = { [K in RequiredKeys<{ [K in keyof S]: InputType<S[K]> }>]: InputType<S[K]> } & { [K in OptionalKeys<{ [K in keyof S]: InputType<S[K]> }>]?: InputType<S[K]> }
 
 export function rawObject<S extends ObjectSchema>(schema: S) {
     return flow(
@@ -19,11 +18,12 @@ export function rawObject<S extends ObjectSchema>(schema: S) {
     )
 }
 
+export type ObjectOutput<S extends ObjectSchema> = { [K in keyof S]: OutputType<S[K]> }
+export type ObjectInput<S extends ObjectSchema> = { [K in RequiredKeys<{ [K in keyof S]: InputType<S[K]> }>]: InputType<S[K]> } & { [K in OptionalKeys<{ [K in keyof S]: InputType<S[K]> }>]?: InputType<S[K]> }
+
 export function object<S extends ObjectSchema>(schema: S) {
     return flow(
         rawObject(schema),
-        //typed<ObjectInput<S>>,
-        //map(input => mapObjIndexed((mapper, key) => exec(input[key as never] as never, mapper), schema)),
         flattenObject(),
         cast<ObjectOutput<S>>
     )
@@ -33,6 +33,11 @@ export function object<S extends ObjectSchema>(schema: S) {
  * Plucks a single key from an object.
  */
 export const pick = <I, K extends keyof I>(key: K) => flow(typed<I>, map(i => i[key]))
+
+/**
+ * Plucks multiple keys from an object.
+ */
+export const picks = <I, K extends (keyof I)[]>(keys: K) => flow(typed<I>, map(ramdaPick(keys)))
 
 /**
  * Generate a mapper that turns a tuple of two objects into one object.
