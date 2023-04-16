@@ -6,9 +6,20 @@ import { ArrayOrElement, arrayOrElement } from "./internal";
 export type ErrorFormatter = (errors: MapError | MapError[]) => string
 
 /**
+ * Regex from a string.
+ */
+export function regexFromString(regex: string) {
+    const main = regex.match(/\/(.+)\/.*/)?.[1]
+    if (main === undefined) {
+        return
+    }
+    return new RegExp(main, regex.match(/\/.+\/(.*)/)?.[1])
+}
+
+/**
  * Utility to format an error path.
  */
-export const formatPath = (path?: ArrayOrElement<ErrorPath>) => {
+export function formatPath(path?: ArrayOrElement<ErrorPath>) {
     if (path === undefined) {
         return ""
     }
@@ -18,7 +29,7 @@ export const formatPath = (path?: ArrayOrElement<ErrorPath>) => {
 /**
  * Prints an error into a message string. Replaces {value} with value. Also appends the value to the end if includeValues is true.
  */
-export const formatError = (includeValues = false) => {
+export function formatError(includeValues = false) {
     return (errors: MapError | MapError[]) => {
         console.log("TODO", errors)
         return arrayOrElement(errors)
@@ -30,7 +41,7 @@ export const formatError = (includeValues = false) => {
 /**
  * Constructs a sentence referencing an error path.
  */
-export const errorAt = (path: string, message: string) => {
+export function errorAt(path: string, message: string) {
     if (path === "") {
         return message
     }

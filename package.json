@@ -1,13 +1,22 @@
 {
     "name": "mop",
     "license": "MIT",
+    "version": "0.0.1",
     "scripts": {
-        "build": "tsc",
-        "watch": "nodemon -e '*' --watch src --watch package.json --watch tsconfig.json --exec yarn build"
+        "clean": "rm -rf dist",
+        "build": "rm -rf dist && npx concurrently \"npx tsc -p tsconfig.esm.json\" \"npx tsc -p tsconfig.cjs.json\"",
+        "watch": "npx concurrently \"npx tsc -p tsconfig.esm.json --watch\" \"npx tsc -p tsconfig.cjs.json --watch\""
     },
-    "module": "dist/index.js",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+        ".": {
+            "require": "./dist/cjs/index.js",
+            "import": "./dist/esm/index.js",
+            "types": "./dist/types/index.d.ts"
+        }
+    },
     "dependencies": {
         "fp-ts": "^2.13.1",
         "object-inspect": "^1.12.2",
@@ -17,8 +26,5 @@
     "devDependencies": {
         "@types/object-inspect": "^1.8.1",
         "@types/ramda": "^0.28.20"
-    },
-    "files": [
-        "dist"
-    ]
+    }
 }

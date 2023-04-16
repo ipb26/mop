@@ -18,17 +18,6 @@ export function arrayOrElement<T>(value: ArrayOrElement<T>) {
 }
 
 /**
- * Regex from a string.
- */
-export function regexFromString(regex: string) {
-    const main = regex.match(/\/(.+)\/.*/)?.[1]
-    if (main === undefined) {
-        return
-    }
-    return new RegExp(main, regex.match(/\/.+\/(.*)/)?.[1])
-}
-
-/**
  * Applies a mapper to each element of an array. This does NOT append anything to the error path. For internal use only. Used for multiple traversals.
  */
 export function loop<I, O>(mapper: (index: number) => Mapper<I, O>) {
