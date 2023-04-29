@@ -16,7 +16,7 @@ export type Result<T> = Either<MapError[], T>
 /**
  * An error associated with a mapping attempt.
  */
-export type MapError = { path?: ArrayOrElement<ErrorPath>, message: string, value?: unknown }
+export type MapError = { path: ErrorPath[], message: string, value?: unknown }
 
 /**
  * Part of an error path.
@@ -39,7 +39,7 @@ export function buildError<T>(factory: ErrorFactory<T>, value: T): MapError[] {
         return factory.map(_ => buildError(_, value)).flat()
     }
     else if (typeof factory === "string") {
-        return [{ message: factory, value }]
+        return [{ path: [], message: factory, value }]
     }
     else {
         return [factory]

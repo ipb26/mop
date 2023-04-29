@@ -31,7 +31,6 @@ export function formatPath(path?: ArrayOrElement<ErrorPath>) {
  */
 export function formatError(includeValues = false) {
     return (errors: MapError | MapError[]) => {
-        console.log("TODO", errors)
         return arrayOrElement(errors)
             .map(_ => _.message.replace("{value}", objectInspect(_.value)) + (includeValues ? " (" + objectInspect(_.value) + ")" : ""))
             .join(", ")

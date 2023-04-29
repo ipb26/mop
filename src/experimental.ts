@@ -1,5 +1,5 @@
 import { flow, pipe } from "fp-ts/function"
-import { ErrorFactory, buildError, typed } from "."
+import { ErrorFactory, MapError, buildError, typed } from "."
 import { Mapper, Result } from "./base"
 import { chain, flat, map, mapFail, of, orElse } from "./core"
 import { exec } from "./exec"
@@ -25,11 +25,11 @@ export function onEachKey<I, O, K extends string | number>(mapper: (key: K) => M
 /**
  * Tries two mappers, just needs one to succeed.
  */
-export const tryBoth = <I, A, B>(a: Mapper<I, A>, b: Mapper<I, B>, error: ErrorFactory<I>) => chain((value: I) => {//TODO allow pass through errors from the two mappers instead of requiring a custom error?
+export const tryBoth = <I, A, B>(a: Mapper<I, A>, b: Mapper<I, B>, error: ErrorFactory<[I, MapError[]]>) => chain((value: I) => {
     return flow(
         a,
-        orElse(() => exec(value, b)),
-        mapFail(() => buildError(error, value))
+        orElse(ae => exec(value, flow(b, mapFail(be => [...ae, ...be])))),
+        mapFail(errors => buildError(error, [value, errors]))
     )
 })
 export const tryDetour = <I, A, B, C>(a: Mapper<I, A>, detour: Mapper<A, C>, b: Mapper<I, B>) => chain((input: I) => {

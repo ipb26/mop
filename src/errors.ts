@@ -2,7 +2,7 @@ import * as E from "fp-ts/Either"
 import { map, mapLeft, toUnion } from "fp-ts/Either"
 import { flow } from "fp-ts/function"
 import { groupBy, mapObjIndexed, values } from "ramda"
-import { errorAt, ErrorFormatter, formatError, formatPath, mapFail, of, orElse } from "."
+import { ErrorFormatter, errorAt, formatError, formatPath, mapFail, of, orElse } from "."
 
 // Formatting and errors. 
 
