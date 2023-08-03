@@ -32,7 +32,7 @@ export const orUndefined = <I>(result: Result<I | null | undefined>) => or<I, un
 export const orNull = <I>(result: Result<I | null | undefined>) => or<I, null>(null)(result)
 
 /**
- * Wraps a mapper so that it skips empty values.
+ * Wraps a mapper so that it skips empty values (null or undefined).
  * @param mapper Mapper
  * @returns New mapper that skips empty values.
  */

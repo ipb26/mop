@@ -1,7 +1,7 @@
 
 import { separate } from "fp-ts/Array"
 import { flow } from "fp-ts/function"
-import { cast, chain, failure, flat, flatMap, map, of, on2, path, Result, typed, ValueType } from "."
+import { Result, ResultType, cast, chain, failure, flat, flatMap, map, of, on2, path, typed } from "."
 import { loop } from "./internal"
 
 /**
@@ -12,7 +12,7 @@ export const flattenObject = <I extends Record<string, Result<unknown>>>() => {
         map(Object.entries),
         loop(() => chain(value => on2(flow(flat(), path(value[0]))))),
         map(Object.fromEntries),
-        cast<{ [K in keyof I]: ValueType<I[K]> }>
+        cast<{ [K in keyof I]: ResultType<I[K]> }>
     )
 }
 

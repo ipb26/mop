@@ -1,7 +1,7 @@
 
 import { flow } from "fp-ts/function"
 import { mapObjIndexed, pick as ramdaPick } from "ramda"
-import { cast, constant, exec, flattenObject, InputType, map, Mapper, noOp, OutputType, path, Result, split, swap, typed } from "."
+import { InputType, Mapper, OutputType, Result, cast, constant, exec, flattenObject, map, noOp, path, split, swap, typed } from "."
 
 type OptionalKeys<S> = { [K in keyof S]: undefined extends S[K] ? K : never }[keyof S]
 type RequiredKeys<S> = { [K in keyof S]: undefined extends S[K] ? never : K }[keyof S]
@@ -28,6 +28,23 @@ export function object<S extends ObjectSchema>(schema: S) {
         cast<ObjectOutput<S>>
     )
 }
+
+/*
+discriminated("x", {
+    a: {
+        x: nonBlankString()
+    }
+})
+
+type DiscriminatedInput<K extends string | number | symbol, S extends DiscriminatedSchema> = {
+    [K in keyof K]: 
+    [K in keyof DiscriminatedSchema]: string
+}
+type DiscriminatedSchema = { [K in keyof object]: ObjectSchema }
+export function discriminated<K extends string | number | symbol, S extends DiscriminatedSchema>(key: K, schema: S) {
+
+}
+*/
 
 /**
  * Plucks a single key from an object.

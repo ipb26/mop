@@ -1,11 +1,18 @@
 
 import { flow } from "fp-ts/function";
+import { ValueOrFactory } from "value-or-factory";
 import { array } from "./array";
 import { buildError, ErrorFactory, Result } from "./base";
 import { failure, flatMap, map, of } from "./core";
+import { maybe, maybeOr, maybeOrNull, maybeOrUndefined } from "./optionality";
 import { test } from "./test";
 
 export const typed = <T>(value: Result<T>) => value
+export const typedMaybe = <T>(value: Result<T | null | undefined>) => maybe(typed<T>)(value)
+export const typedOr = <T>(factory: ValueOrFactory<T>) => maybeOr(typed<T>, factory)
+export const typedOrUndefined = <T>(value: Result<T | null | undefined>) => maybeOrUndefined(typed<T>)(value)
+export const typedOrNull = <T>(value: Result<T | null | undefined>) => maybeOrNull(typed<T>)(value)
+
 export const cast = <T>(value: Result<unknown>) => map(_ => _ as T)(value)
 
 export const stringType = typed<string>
@@ -15,6 +22,7 @@ export const bigintType = typed<bigint>
 export const objectType = typed<object>
 export const symbolType = typed<symbol>
 export const dateType = typed<Date>
+export const arrayBufferType = typed<ArrayBuffer>
 export const arrayBufferViewType = typed<ArrayBufferView>
 
 export const isInstanceOf = <T, A extends unknown[]>(con: new (...args: A) => T, message: ErrorFactory<unknown> = "This value must be an instance of " + con.name) => flatMap((_: unknown) => _ instanceof con ? of(_) : failure(buildError(message, _)))

@@ -17,10 +17,10 @@ import { regexFromString } from "./util"
  */
 export const unknownToBoolean = () => map(_ => !!_);
 
-export const stringToFloat = (message: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric.") => flow(numeric(v => buildError(message, [undefined, v])), tryCatch(parseFloat, message));
-export const stringToInt = (message: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric.") => flow(numeric(v => buildError(message, [undefined, v])), tryCatch(parseInt, message));
-export const stringOrNumberToInt = (message: ErrorFactory<unknown> = "This value must be a number or a numeric string.") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToInt()))), isNumber(), message)
-export const stringOrNumberToFloat = (message: ErrorFactory<unknown> = "This value must be a number or a numeric string.") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToFloat()))), isNumber(), message)
+export const stringToFloat = (message: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric") => flow(numeric(v => buildError(message, [undefined, v])), tryCatch(parseFloat, message));
+export const stringToInt = (message: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric") => flow(numeric(v => buildError(message, [undefined, v])), tryCatch(parseInt, message));
+export const stringOrNumberToInt = (message: ErrorFactory<unknown> = "This value must be a number or a numeric string") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToInt()))), isNumber(), message)
+export const stringOrNumberToFloat = (message: ErrorFactory<unknown> = "This value must be a number or a numeric string") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToFloat()))), isNumber(), message)
 export const numberToString = () => map((_: number) => _.toString())
 
 /**

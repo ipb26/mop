@@ -4,10 +4,8 @@ import { flow } from "fp-ts/function"
 import { groupBy, mapObjIndexed, values } from "ramda"
 import { ErrorFormatter, errorAt, formatError, formatPath, mapFail, of, orElse } from "."
 
-// Formatting and errors. 
-
 /**
- * Turns the errors into a list of error messages, or undefined if there are no errors.
+ * Throws if there is an error, otherwise returns the value.
  */
 export const throwError = (formatter: ErrorFormatter = formatError(false)) => flow(singleError(formatter), E.mapLeft(_ => { throw new globalThis.Error(_) }), toUnion)
 /**

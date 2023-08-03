@@ -1,5 +1,4 @@
 import { flow } from "fp-ts/function"
-import objectInspect from "object-inspect"
 import { buildError, ErrorFactory } from "./base"
 import { noOp } from "./common"
 import { map } from "./core"
@@ -14,12 +13,12 @@ export const localStorage = flow(noOp<string>, map(key => window.localStorage.ge
 /**
  * Creates a mapper that turns a string into JSON.
  */
-export const fromJson = (errorFactory: ErrorFactory<[unknown, string]> = _ => "This is not valid json: " + objectInspect(_[0])) => tryCatch<string, unknown>(JSON.parse, errorFactory)
+export const fromJson = (errorFactory: ErrorFactory<[unknown, string]> = _ => "This is not valid json") => tryCatch<string, unknown>(JSON.parse, errorFactory)
 
 /**
  * Creates a mapper that turns JSON into a string.
  */
-export const toJson = (errorFactory: ErrorFactory<[unknown, unknown]> = _ => "Could not stringify to JSON: " + objectInspect(_[0])) => tryCatch<unknown, string>(JSON.stringify, errorFactory)
+export const toJson = (errorFactory: ErrorFactory<[unknown, unknown]> = _ => "Could not stringify to JSON") => tryCatch<unknown, string>(JSON.stringify, errorFactory)
 
 /**
  * Requires that 2 fields match.

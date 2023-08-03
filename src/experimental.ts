@@ -15,7 +15,7 @@ export function onEachKey<I, O, K extends string | number>(mapper: (key: K) => M
     return flow(
         typed<Record<K, I>>,
         map(Object.entries),
-        cast<[K, I][]>,
+        cast<(readonly [K, I])[]>,
         loop(() => chain(value => on2(flow(mapper(value[0]), path(value[0]))))),
         map(Object.fromEntries),
         cast<Record<K, O>>,

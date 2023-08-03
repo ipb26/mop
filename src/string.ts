@@ -51,7 +51,7 @@ export const endsWithCi = (match: string, error: ErrorFactory<string> = "Must en
 export const numeric = (error: ErrorFactory<string> = "This value is not numeric") => regex(/^-?\d*\.?\d*$/, error)
 export const regex = (regex: RegExp, error: ErrorFactory<string> = "This value does not match pattern " + regex + "") => test<string>(_ => regex.test(_), error);
 export const email = (error: ErrorFactory<string> = "This is not a valid email") => regex(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, error)
-export const uuid = (error: ErrorFactory<string> = value => "This value must be a UUID, got \"" + value + "\" instead") => regex(/^[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}$/, error);
+export const uuid = (error: ErrorFactory<string> = "This value must be a UUID") => regex(/^[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}$/, error);
 
 /**
  * Mappers for string lengths.

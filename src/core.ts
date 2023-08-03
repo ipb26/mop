@@ -2,7 +2,10 @@ import * as E from "fp-ts/Either"
 import { pipe } from "fp-ts/function"
 import { equals } from "ramda"
 import { ErrorPath, MapError, Mapper, Result } from "./base"
-import { arrayOrElement, ArrayOrElement } from "./internal"
+import { ArrayOrElement, arrayOrElement } from "./internal"
+
+export { isLeft as isFailure, isRight as isSuccess } from "fp-ts/Either"
+export { flow, pipe } from "fp-ts/function"
 
 /**
  * Creates a result from a value.
