@@ -49,12 +49,17 @@ export function discriminated<K extends string | number | symbol, S extends Disc
 /**
  * Plucks a single key from an object.
  */
-export const pick = <I, K extends keyof I>(key: K) => flow(typed<I>, map(i => i[key]))
+export const pluck = <I, K extends keyof I>(key: K) => flow(typed<I>, map(i => i[key]))
 
 /**
  * Plucks multiple keys from an object.
  */
-export const picks = <I, K extends (keyof I)[]>(keys: K) => flow(typed<I>, map(ramdaPick(keys)))
+export const pick = <I, K extends readonly (keyof I)[]>(keys: K) => flow(
+    typed<I>,
+    map(value => {
+        return ramdaPick(keys, value)
+    })
+)
 
 /**
  * Generate a mapper that turns a tuple of two objects into one object.
@@ -73,7 +78,7 @@ export const onKey = <I extends {}, K extends (keyof I) & string, A>(key: K, map
     return flow(
         split(
             flow(
-                pick(key),
+                pluck(key),
                 mapper,
                 path(key),
                 map(_ => <Record<K, A>>{ [key]: _ })

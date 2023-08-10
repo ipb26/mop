@@ -17,10 +17,10 @@ export const arrayByIndex = <I, O>(mapper: (index: number) => Mapper<I, O>) => l
 /**
  * Creates a mapper that validates that an array has the specified number of items.
  */
-export const elems = <T>(count: number, error: ErrorFactory<T[]> = _ => "Must have " + count + " elements (has " + _.length + ").") => test(_ => _.length === count, error);
-export const minElem = <T>(count: number, error: ErrorFactory<T[]> = _ => "Must have at least " + count + " elements (has " + _.length + ").") => test(_ => _.length >= count, error);
-export const maxElem = <T>(count: number, error: ErrorFactory<T[]> = _ => "Must have at most " + count + " elements (has " + _.length + ").") => test(_ => _.length <= count, error);
-export const oneElem = <I>(emptyError: ErrorFactory<I[]> = "This array is empty.", multiError: ErrorFactory<I[]> = "This array has multiple items.") => flow(
+export const elems = <T>(count: number, error: ErrorFactory<T[]> = _ => "Must have " + count + " elements (has " + _.length + ")") => test(_ => _.length === count, error);
+export const minElem = <T>(count: number, error: ErrorFactory<T[]> = _ => "Must have at least " + count + " elements (has " + _.length + ")") => test(_ => _.length >= count, error);
+export const maxElem = <T>(count: number, error: ErrorFactory<T[]> = _ => "Must have at most " + count + " elements (has " + _.length + ")") => test(_ => _.length <= count, error);
+export const oneElem = <I>(emptyError: ErrorFactory<I[]> = "This array is empty.", multiError: ErrorFactory<I[]> = "This array has multiple items") => flow(
     typed<I[]>,
     test(_ => _.length !== 0, emptyError),
     test(_ => _.length < 2, multiError),
