@@ -25,6 +25,8 @@ export const dateType = typed<Date>
 export const arrayBufferType = typed<ArrayBuffer>
 export const arrayBufferViewType = typed<ArrayBufferView>
 
+export const isNull = (message?: ErrorFactory<unknown>) => test<unknown>(_ => _ === null, message)
+export const isUndefined = (message?: ErrorFactory<unknown>) => test<unknown>(_ => _ === undefined, message)
 export const isInstanceOf = <T, A extends unknown[]>(con: new (...args: A) => T, message: ErrorFactory<unknown> = "This value must be an instance of " + con.name) => flatMap((_: unknown) => _ instanceof con ? of(_) : failure(buildError(message, _)))
 export const isType = <T>(type: string, message: ErrorFactory<unknown> = _ => "This value must be of type " + type) => flow(test<unknown>(_ => typeof _ === type, message), cast<T>)
 export const isString = (message?: ErrorFactory<unknown>) => isType<string>("string", message)

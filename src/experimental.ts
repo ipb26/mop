@@ -1,7 +1,8 @@
+import { separate } from "fp-ts/Array"
 import { flow, pipe } from "fp-ts/function"
 import { ErrorFactory, MapError, buildError, typed } from "."
 import { Mapper, Result } from "./base"
-import { chain, flat, map, mapFail, of, orElse } from "./core"
+import { chain, failure, flat, flatMap, map, mapFail, of, orElse, success } from "./core"
 import { exec } from "./exec"
 import { loop } from "./internal"
 import { path } from "./path"
@@ -21,6 +22,16 @@ export function onEachKey<I, O, K extends string | number>(mapper: (key: K) => M
         cast<Record<K, O>>,
     )
 }
+
+export const tryAll = <I, O>(mappers: Mapper<I, O>[], error: ErrorFactory<[I, MapError[]]>) => flatMap((input: I) => {
+    const results = mappers.map(_ => _(of(input)))
+    const separated = separate(results)
+    const first = separated.right.at(0)
+    if (first === undefined) {
+        return failure(buildError(error, [input, separated.left.flat()]))
+    }
+    return success(first as O)
+})
 
 /**
  * Tries two mappers, just needs one to succeed.

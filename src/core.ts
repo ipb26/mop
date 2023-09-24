@@ -1,6 +1,7 @@
 import * as E from "fp-ts/Either"
 import { pipe } from "fp-ts/function"
 import { equals } from "ramda"
+import { ValueOrFactory, callOrGet } from "value-or-factory"
 import { ErrorPath, MapError, Mapper, Result } from "./base"
 import { ArrayOrElement, arrayOrElement } from "./internal"
 
@@ -35,7 +36,7 @@ export const of = <T>(value: T): Result<T> => E.right(value)
 /**
  * Recovers from the failure side of a transformation result.
  */
-export const orElse = <B, A>(orElse: (e: MapError[]) => Result<B>) => (result: Result<A>) => E.orElseW(orElse)(result)
+export const orElse = <B, A>(orElse: ValueOrFactory<Result<B>, [MapError[]]>) => (result: Result<A>) => E.orElseW((errors: MapError[]) => callOrGet(orElse, errors))(result)
 
 /**
  * Takes a simple function that converts from I to O or generates an error.
@@ -51,6 +52,24 @@ export const flat = <T>() => flatMap((result: Result<T>) => result)
  * Takes a simple function that uses the input value to generate an additional mapper that is then executed.
  */
 export const chain = <I, O>(func: (value: I) => Mapper<I, O>) => E.chain((value: I) => pipe(value, E.of, func(value)))
+
+/**
+ * Wrap a mapper in a fallback incase it fails.
+ */
+export const fallback = <I, O1, O2>(mapper: Mapper<I, O1>, fallbackMapper: Mapper<I, O2>) => {
+    return flatMap((value: I) => {
+        return pipe(value, of, mapper, orElse(fallbackMapper(of(value))))
+    })
+}
+
+/**
+ * Attempts to run a mapper. If it fails, returns the original value.
+ */
+export const attempt = <I, O>(mapper: Mapper<I, O>) => {
+    return flatMap((value: I) => {
+        return pipe(value, of, mapper, orElse(of(value)))
+    })
+}
 
 /**
  * Maps each error in a transformation failure.

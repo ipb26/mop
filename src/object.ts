@@ -29,6 +29,18 @@ export function object<S extends ObjectSchema>(schema: S) {
     )
 }
 
+export type UnknownObjectSchema = { [K: string]: Mapper<unknown, unknown> }
+
+export function unknownObject<S extends UnknownObjectSchema>(schema: S) {
+    return flow(
+        typed<object>,
+        map(input => mapObjIndexed((mapper, key) => exec(input[key as never] as never, mapper), schema)),
+        cast<RawObjectOutput<S>>,
+        flattenObject(),
+        cast<ObjectOutput<S>>
+    )
+}
+
 /*
 discriminated("x", {
     a: {
