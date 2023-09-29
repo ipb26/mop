@@ -17,8 +17,8 @@ export const truncatePaths = (count: number) => mapFail(errors => {
     return errors.map(error => ({ ...error, path: arrayOrElement(error.path ?? []).slice(0, count) }))
 })
 
-//TODO does this do it? maybe change name - this flattens errors to one level, using nested paths as a prefix for nested errors
-export const flattenErrors = () => {
+//TODO maybe change name - this flattens errors to one level, using nested paths as a prefix for nested errors
+export const chopErrorPaths = () => {
     return mapFail(errors => {
         return errors.map(error => {
             return {

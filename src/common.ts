@@ -18,9 +18,9 @@ export const fail = <I, O>(error: ErrorFactory<I>) => flatMap<I, O>(value => fai
 export const possible = <I, O extends I>(mapper: Mapper<I, O> | undefined) => mapper ?? noOp<I>
 
 /**
- * Shortcut method to add a mapper if an argument is set to true
+ * Shortcut method to add a mapper if the condition argument is set to true
  */
-export const cond = <I, O extends I>(mapper: Mapper<I, O>, on: boolean) => on ? mapper : noOp<I>
+export const cond = <I, O extends I>(mapper: Mapper<I, O>, condition: boolean) => condition ? mapper : noOp<I>
 
 /**
  * Does nothing (used for type inference).

@@ -38,7 +38,7 @@ export function formatError(includeValues = false) {
 }
 
 /**
- * Constructs a sentence referencing an error path.
+ * Constructs a prefix sentence referencing an error path.
  */
 export function errorAt(path: string, message: string) {
     if (path === "") {

@@ -13,48 +13,72 @@ import { isNumber, isString } from "./types"
 import { regexFromString } from "./util"
 
 /**
- * Converts any value to a boolean using the !! operator.
+ * Creates a mapper that converts any value to a boolean using the !! operator.
  */
 export const unknownToBoolean = () => map(_ => !!_);
 
-export const stringToFloat = (message: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric") => flow(numeric(v => buildError(message, [undefined, v])), tryCatch(parseFloat, message));
-export const stringToInt = (message: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric") => flow(numeric(v => buildError(message, [undefined, v])), tryCatch(parseInt, message));
-export const stringOrNumberToInt = (message: ErrorFactory<unknown> = "This value must be a number or a numeric string") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToInt()))), isNumber(), message)
-export const stringOrNumberToFloat = (message: ErrorFactory<unknown> = "This value must be a number or a numeric string") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToFloat()))), isNumber(), message)
-export const numberToString = () => map((_: number) => _.toString())
+/**
+ * Creates a mapper that converts a string to an int.
+ */
+export const stringToInt = (error: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric") => flow(numeric(v => buildError(error, [undefined, v])), tryCatch(parseInt, error));
 
 /**
- * Converts a date to a timestamp.
+ * Creates a mapper that converts a string to a float.
  */
-export const dateToTime = () => map((_: Date) => _.getTime())
+export const stringToFloat = (error: ErrorFactory<[unknown | undefined, string]> = "This value must be numeric") => flow(numeric(v => buildError(error, [undefined, v])), tryCatch(parseFloat, error));
 
 /**
- * Converts a timestamp to a date.
+ * Creates a mapper that converts a string or number to an int.
  */
-export const timeToDate = () => map((_: number) => new Date(_))
+export const stringOrNumberToInt = (error: ErrorFactory<unknown> = "This value must be a number or a numeric string") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToInt()))), isNumber(), error)
 
 /**
- * Converts a date to a string. Uses Date.toISOString method.
+ * Creates a mapper that converts a string or number to an float.
  */
-export const dateToIsoString = () => map((_: Date) => _.toISOString())
+export const stringOrNumberToFloat = (error: ErrorFactory<unknown> = "This value must be a number or a numeric string") => tryBoth(flow(isString(), blankToEmpty(), maybe(flow(numeric(), stringToFloat()))), isNumber(), error)
 
 /**
- * Converts a timestamp to a date. Uses Date.parse method.
+ * Creates a mapper that converts a number to a string.
  */
-export const isoStringToDate = () => map((_: string) => Date.parse(_))
+export const numberToString = () => map((input: number) => input.toString())
 
 /**
- * Converts a string to a regex object.
+ * Creates a mapper that converts a number to a locale string.
  */
-export const stringToRegex = (message: ErrorFactory<[unknown, string] | string> = error => "This is not a valid regex pattern" + (typeof error !== "string" ? " (" + objectInspect(error[0]) + ")" : "")) => flatMap((input: string) => {
+export const numberToLocaleString = () => map((input: number) => input.toLocaleString())
+
+/**
+ * Creates a mapper that converts a date to a timestamp.
+ */
+export const dateToTime = () => map((input: Date) => input.getTime())
+
+/**
+ * Creates a mapper that converts a timestamp to a date.
+ */
+export const timeToDate = () => map((input: number) => new Date(input))
+
+/**
+ * Creates a mapper that converts a date to a string. Uses Date.toISOString method.
+ */
+export const dateToIsoString = () => map((input: Date) => input.toISOString())
+
+/**
+ * Creates a mapper that converts a timestamp to a date. Uses Date.parse method.
+ */
+export const isoStringToDate = () => map((input: string) => Date.parse(input))
+
+/**
+ * Creates a mapper that converts a string to a regex object.
+ */
+export const stringToRegex = (error: ErrorFactory<[unknown, string] | string> = error => "This is not a valid regex pattern" + (typeof error !== "string" ? " (" + objectInspect(error[0]) + ")" : "")) => flatMap((input: string) => {
     try {
         const regex = regexFromString(input)
         if (regex === undefined) {
-            return failure(buildError(message, input))
+            return failure(buildError(error, input))
         }
         return of(regex)
     }
     catch (e) {
-        return failure(buildError(message, [e, input]))
+        return failure(buildError(error, [e, input]))
     }
 })
