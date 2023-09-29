@@ -1,4 +1,4 @@
-# Observable Worker
+# Mop
 
 A functional validation and transformation library, based on fp-ts.
 
