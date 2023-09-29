@@ -18,13 +18,13 @@ An error object, consisting of a path, message and value. An example error objec
 }
 ```
 
-### Result<T>
+### Result&lt;T&gt;
 
 The result of a transformation. Is either a value, or an array of MapError(s).
 
-### Mapper<I, O>
+### Mapper&lt;I, O&gt;
 
-A function that transforms a Result<I> into a Result<O>
+A function that transforms a Result&lt;I&gt; into a Result&lt;O&gt;
 
 ## Installation
 
