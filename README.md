@@ -1,6 +1,6 @@
 # Observable Worker
 
-A functional validation and transformation library.
+A functional validation and transformation library, based on fp-ts.
 
 ## Installation
 
@@ -13,13 +13,21 @@ More examples to come.
 import * as M from "mop"
 
 const schema = M.object({
-    list: M.arrayByIndex(index => {
-        if (index === 0) {
-            return M.object({
-                id: flow(M.nonBlankString(), M.stringToDate())
-            })
-        }
-    })
+    list: flow(
+        M.minElem(2),
+        M.arrayByIndex(index => {
+            if (index === 0) {
+                return M.object({
+                    id: flow(M.nonBlankString(), M.startsWith("FIRST"))
+                })
+            }
+            else {
+                return M.object({
+                    id: flow(M.nonBlankString())
+                })
+            }
+        })
+    )
 })
 
 ```
