@@ -8,13 +8,15 @@ The core of the library is:
 
 ### MapError
 
-An error object, consisting of a path, message and value. An example error object would be:
+An error object, consisting of a path, message and value. An example error object would look like this:
 
-```{
+```
+{
     path: ["field", "subField"],
     error: "This string must be at least 8 characters long",
     value: "6chars"
-}```
+}
+```
 
 ### Result<T>
 
