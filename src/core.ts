@@ -9,17 +9,17 @@ export { isLeft as isFailure, isRight as isSuccess } from "fp-ts/Either"
 export { flow, pipe } from "fp-ts/function"
 
 /**
- * Creates a result from a value.
+ * Creates a failure result from an error.
  */
 export const failure = E.left<MapError[], never>
 
 /**
- * Creates a result from a value.
+ * Creates a success result from a value.
  */
 export const success = <T>(value: T) => E.right<MapError[], T>(value)
 
 /**
- * Executes a simple operation that cannot fail (unlike flatMap).
+ * A mapper that transforms a value.
  */
 export const map = <I, O>(func: (i: I) => O): (result: Result<I>) => Result<O> => E.map(func)
 
