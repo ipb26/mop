@@ -20,7 +20,7 @@ An error object, consisting of a path, message and value. An example error objec
 
 ### Result&lt;T&gt;
 
-The result of a transformation. Is either a value, or an array of MapError(s).
+The result of a transformation. Is either a value, or an array of MapError(s). This is just a shorthand for Either&ltMapError[], T&gt;
 
 ### Mapper&lt;I, O&gt;
 
