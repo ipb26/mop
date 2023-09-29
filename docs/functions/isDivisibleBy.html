@@ -17,15 +17,17 @@
 <h1>Function isDivisibleBy</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="isDivisibleBy"><span class="tsd-kind-call-signature">is<wbr/>Divisible<wbr/>By</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">divisor</span>, <span class="tsd-kind-parameter">message</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">ma</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><a href="#isDivisibleBy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="isDivisibleBy"><span class="tsd-kind-call-signature">is<wbr/>Divisible<wbr/>By</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">divisor</span>, <span class="tsd-kind-parameter">error</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">ma</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><a href="#isDivisibleBy" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Creates a mapper that validates that a number is divisible by a specified value.</p>
+</div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">divisor</span>: <span class="tsd-signature-type">number</span></h5></li>
 <li>
-<h5><span class="tsd-kind-parameter">message</span>: <a href="../types/ErrorFactory.html" class="tsd-signature-type tsd-kind-type-alias">ErrorFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">error</span>: <a href="../types/ErrorFactory.html" class="tsd-signature-type tsd-kind-type-alias">ErrorFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">ma</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h4>
 <ul class="tsd-parameters">
 <li class="tsd-parameter-signature">
@@ -37,9 +39,10 @@
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">ma</span>: <span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/midwesterntechnology/mop/blob/f9b939a/src/numbers.ts#L10">src/numbers.ts:10</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/midwesterntechnology/mop/blob/4cc9295/src/numbers.ts#L28">src/numbers.ts:28</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

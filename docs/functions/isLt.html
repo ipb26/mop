@@ -17,8 +17,10 @@
 <h1>Function isLt</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="isLt"><span class="tsd-kind-call-signature">is<wbr/>Lt</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">is</span>, <span class="tsd-kind-parameter">message</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">ma</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><a href="#isLt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="isLt"><span class="tsd-kind-call-signature">is<wbr/>Lt</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">is</span>, <span class="tsd-kind-parameter">error</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">ma</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><a href="#isLt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Creates a mapper that validates that a number is less than a specified value.</p>
+</div>
 <section class="tsd-panel">
 <h4>Type Parameters</h4>
 <ul class="tsd-type-parameter-list">
@@ -30,7 +32,7 @@
 <li>
 <h5><span class="tsd-kind-parameter">is</span>: <span class="tsd-signature-type tsd-kind-type-parameter">T</span></h5></li>
 <li>
-<h5><span class="tsd-kind-parameter">message</span>: <a href="../types/ErrorFactory.html" class="tsd-signature-type tsd-kind-type-alias">ErrorFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></h5></li></ul></div>
+<h5><span class="tsd-kind-parameter">error</span>: <a href="../types/ErrorFactory.html" class="tsd-signature-type tsd-kind-type-alias">ErrorFactory</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">ma</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span></h4>
 <ul class="tsd-parameters">
 <li class="tsd-parameter-signature">
@@ -42,9 +44,10 @@
 <ul class="tsd-parameter-list">
 <li>
 <h5><span class="tsd-kind-parameter">ma</span>: <span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul><aside class="tsd-sources">
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Either</span><span class="tsd-signature-symbol">&lt;</span><a href="../types/MapError.html" class="tsd-signature-type tsd-kind-type-alias">MapError</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type tsd-kind-type-parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></li></ul>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/midwesterntechnology/mop/blob/f9b939a/src/numbers.ts#L7">src/numbers.ts:7</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/midwesterntechnology/mop/blob/4cc9295/src/numbers.ts#L18">src/numbers.ts:18</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
