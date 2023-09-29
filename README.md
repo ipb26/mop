@@ -30,9 +30,9 @@ A function that transforms a Result&lt;I&gt; into a Result&lt;O&gt;
 
 ## Usage
 
-```typescript
-
 More examples to come.
+
+```typescript
 
 import { flow } from "fp-ts/function"
 import * as M from "mop"
