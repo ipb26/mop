@@ -13,16 +13,46 @@ export const typedOr = <T>(factory: ValueOrFactory<T>) => maybeOr(typed<T>, fact
 export const typedOrUndefined = <T>(value: Result<T | null | undefined>) => maybeOrUndefined(typed<T>)(value)
 export const typedOrNull = <T>(value: Result<T | null | undefined>) => maybeOrNull(typed<T>)(value)
 
+/**
+ * Casts an unknown value to a type.
+ */
 export const cast = <T>(value: Result<unknown>) => map(_ => _ as T)(value)
 
+/**
+ * A no-op string typed mapper, used for type inference.
+ */
 export const stringType = typed<string>
+/**
+ * A no-op boolean typed mapper, used for type inference.
+ */
 export const booleanType = typed<boolean>
+/**
+ * A no-op number typed mapper, used for type inference.
+ */
 export const numberType = typed<number>
+/**
+ * A no-op bigint typed mapper, used for type inference.
+ */
 export const bigintType = typed<bigint>
+/**
+ * A no-op object typed mapper, used for type inference.
+ */
 export const objectType = typed<object>
+/**
+ * A no-op symbol typed mapper, used for type inference.
+ */
 export const symbolType = typed<symbol>
+/**
+ * A no-op Date typed mapper, used for type inference.
+ */
 export const dateType = typed<Date>
+/**
+ * A no-op ArrayBuffer typed mapper, used for type inference.
+ */
 export const arrayBufferType = typed<ArrayBuffer>
+/**
+ * A no-op ArrayBufferView typed mapper, used for type inference.
+ */
 export const arrayBufferViewType = typed<ArrayBufferView>
 
 export const isNull = (message?: ErrorFactory<unknown>) => test<unknown>(_ => _ === null, message)

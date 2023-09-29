@@ -4,12 +4,12 @@ import { ValueOrFactory } from "value-or-factory";
 import { ArrayOrElement } from "./internal";
 
 /**
- * The result of a mapping attempt.
+ * The result of a mapping attempt. Either a value or an error.
  */
 export type Result<T> = Either<MapError[], T>
 
 /**
- * Part of an error path.
+ * One piece of an error path.
  */
 export type ErrorPath = string | number
 
@@ -24,7 +24,7 @@ export type MapError = { path: ErrorPath[], message: string, value?: unknown }
 export type Mapper<I, O> = (value: Result<I>) => Result<O>
 
 /**
- * A message or generator.
+ * An error message or generator.
  */
 export type ErrorFactory<T> = ValueOrFactory<ArrayOrElement<string | FactoryError>, [T]>
 
@@ -34,7 +34,7 @@ export type ErrorFactory<T> = ValueOrFactory<ArrayOrElement<string | FactoryErro
 export type FactoryError = Pick<MapError, "path" | "message">
 
 /**
- * Generates an error (or errors).
+ * Generates an error using a factory and a value.
  */
 export function buildError<T>(factory: ErrorFactory<T>, value: T): MapError[] {
     if (typeof factory === "function") {
@@ -53,6 +53,17 @@ export function buildError<T>(factory: ErrorFactory<T>, value: T): MapError[] {
 
 // Extractors
 
+/**
+ * Extract the value from a success result.
+ */
 export type ResultType<P> = P extends E.Right<infer O> ? O : never
+
+/**
+ * Extract the input type from a mapper.
+ */
 export type InputType<P> = P extends Mapper<infer I, unknown> ? I : never
+
+/**
+ * Extract the output type from a mapper.
+ */
 export type OutputType<P> = P extends Mapper<never, infer O> ? O : never
