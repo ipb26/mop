@@ -54,8 +54,14 @@ export const email = (error: ErrorFactory<string> = "This is not a valid email")
 export const uuid = (error: ErrorFactory<string> = "This value must be a UUID") => regex(/^[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}$/, error);
 
 /**
- * Mappers for string lengths.
+ * A mapper that requires a string to be an exact length.
  */
 export const length = (is: number, error: ErrorFactory<string> = "Must be " + is + " characters") => test(_ => _.length === is, error)
+/**
+ * A mapper that requires a string to be a minimum length.
+ */
 export const minLength = (is: number, error: ErrorFactory<string> = "Must be at least " + is + " characters") => test(_ => _.length >= is, error)
+/**
+ * A mapper that requires a string to be a maximum length.
+ */
 export const maxLength = (is: number, error: ErrorFactory<string> = "Must be at most " + is + " characters") => test(_ => _.length <= is, error)

@@ -59,12 +59,12 @@ export function discriminated<K extends string | number | symbol, S extends Disc
 */
 
 /**
- * Plucks a single key from an object.
+ * Creates a mapper that plucks a single key from an object.
  */
 export const pluck = <I, K extends keyof I>(key: K) => flow(typed<I>, map(i => i[key]))
 
 /**
- * Plucks multiple keys from an object.
+ * Creates a mapper that picks multiple keys from an object.
  */
 export const pick = <I, K extends readonly (keyof I)[]>(keys: K) => flow(
     typed<I>,
@@ -74,7 +74,7 @@ export const pick = <I, K extends readonly (keyof I)[]>(keys: K) => flow(
 )
 
 /**
- * Generate a mapper that turns a tuple of two objects into one object.
+ * Creates a mapper that merges a tuple of two objects into one object.
  */
 export const merge = <A extends {}, B extends {}>() => map((value: readonly [A, B]): Omit<A, keyof B> & B => {
     return {
@@ -84,7 +84,7 @@ export const merge = <A extends {}, B extends {}>() => map((value: readonly [A, 
 })
 
 /**
- * Apply a mapper to one key of an object and merge it back in.
+ * Creates a mapper that applies another mapper to one key of an object and merge the result back into the object.
  */
 export const onKey = <I extends {}, K extends (keyof I) & string, A>(key: K, mapper: Mapper<I[K], A>) => {
     return flow(
@@ -101,7 +101,7 @@ export const onKey = <I extends {}, K extends (keyof I) & string, A>(key: K, map
 }
 
 /**
- * Generate a mapper that drops a single key from an object.
+ * Creates a mapper that drops a single key from an object.
  */
 export const dropKey = <I, K extends keyof I>(key: K) => map<I, Omit<I, K>>(i => {
     const { [key]: drop, ...rest } = i
@@ -109,7 +109,7 @@ export const dropKey = <I, K extends keyof I>(key: K) => map<I, Omit<I, K>>(i =>
 })
 
 /**
- * Generate a mapper that moves a key to another key in an object from an object.
+ * Creates a mapper that moves a key to another key in an object from an object.
  */
 export const moveKey = <I, K extends keyof I, N extends string | number | symbol>(oldKey: K, newKey: N) => map((i: I) => {
     const { [oldKey]: _, ...rest } = i
@@ -120,11 +120,11 @@ export const moveKey = <I, K extends keyof I, N extends string | number | symbol
 })
 
 /**
- * Merge a manually provided object.
+ * Creates a mapper that merges a manually provided object.
  */
 export const mergeWith = <I extends {}, A extends {}>(add: A) => flow(noOp<I>, split(constant(add)), merge())
 
 /**
- * Merge a manually provided object.
+ * Creates a mapper that merges a manually provided object.
  */
 export const mergeWithBefore = <I extends {}, A extends {}>(add: A) => flow(noOp<I>, split(constant(add)), swap(), merge())

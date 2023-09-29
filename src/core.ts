@@ -64,24 +64,6 @@ export const flat = <T>() => flatMap((result: Result<T>) => result)
 export const chain = <I, O>(func: (value: I) => Mapper<I, O>) => E.chain((value: I) => pipe(value, E.of, func(value)))
 
 /**
- * Wrap a mapper in a fallback incase it fails.
- */
-export const fallback = <I, O1, O2>(mapper: Mapper<I, O1>, fallbackMapper: Mapper<I, O2>) => {
-    return flatMap((value: I) => {
-        return pipe(value, of, mapper, orElse(fallbackMapper(of(value))))
-    })
-}
-
-/**
- * Attempts to run a mapper. If it fails, returns the original value.
- */
-export const attempt = <I, O>(mapper: Mapper<I, O>) => {
-    return flatMap((value: I) => {
-        return pipe(value, of, mapper, orElse(of(value)))
-    })
-}
-
-/**
  * Maps each error in a transformation failure.
  */
 export const mapEachError = (func: (i: MapError) => MapError) => mapFail(_ => _.map(func))
