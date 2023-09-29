@@ -24,7 +24,7 @@ export type MapError = { path: ErrorPath[], message: string, value?: unknown }
 export type Mapper<I, O> = (value: Result<I>) => Result<O>
 
 /**
- * An error message or generator.
+ * Used for quickly building errors. Can be a string, an object with a path and message, or an array of either the two.
  */
 export type ErrorFactory<T> = ValueOrFactory<ArrayOrElement<string | FactoryError>, [T]>
 

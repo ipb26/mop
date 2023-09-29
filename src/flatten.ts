@@ -5,7 +5,7 @@ import { Result, ResultType, cast, chain, failure, flat, flatMap, map, of, on2, 
 import { loop } from "./internal"
 
 /**
- * Combines an object of results into a result of an object.
+ * Creates a mapper that turns an object of results into a @link Result of an object.
  */
 export const flattenObject = <I extends Record<string, Result<unknown>>>() => {
     return flow(
@@ -17,7 +17,7 @@ export const flattenObject = <I extends Record<string, Result<unknown>>>() => {
 }
 
 /**
- * Combines an array of results into a result of an array.
+ * Creates a mapper that turns an array of results into a @link Result of an array.
  */
 export const flattenArray = <T>() => flow(
     typed<Result<T>[]>,

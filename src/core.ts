@@ -5,8 +5,18 @@ import { ValueOrFactory, callOrGet } from "value-or-factory"
 import { ErrorPath, MapError, Mapper, Result } from "./base"
 import { ArrayOrElement, arrayOrElement } from "./internal"
 
-export { isLeft as isFailure, isRight as isSuccess } from "fp-ts/Either"
+export { isLeft, isRight } from "fp-ts/Either"
 export { flow, pipe } from "fp-ts/function"
+
+/**
+ * Returns true if this result is a success.
+ */
+export const isSuccess = <T>(result: Result<T>) => E.isRight(result)
+
+/**
+ * Returns true if this result is a failure.
+ */
+export const isFailure = <T>(result: Result<T>) => E.isLeft(result)
 
 /**
  * Creates a failure result from an error.

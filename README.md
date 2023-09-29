@@ -64,6 +64,23 @@ const schema = M.object({
     )
 })
 
+const value = {
+    number: 5,
+    list: [
+        {
+            id: "FIRST"
+        },
+        {
+            id: "SECOND"
+        },
+    ]
+}
+const results = M.exec(value, schema)
+
+if (M.isSuccess(results)) {
+    console.log(value)
+}
+
 ```
 
 ## License
