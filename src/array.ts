@@ -1,7 +1,7 @@
 
 import { flow } from "fp-ts/function"
+import { map } from "."
 import { ErrorFactory, Mapper } from "./base"
-import { map } from "./core"
 import { loop } from "./internal"
 import { path } from "./path"
 import { test } from "./test"

@@ -36,3 +36,10 @@ export const narrow = <I, A extends I, B extends I>(a: A, b: B, error: ErrorFact
     }
     return failure(buildError(error, value))
 })
+
+export const narrow3 = <I, A extends I, B extends I, C extends I>(a: A, b: B, c: C, error: ErrorFactory<I> = "This is not a valid option."): Mapper<I, A | B | C> => flatMap((value: I) => {
+    if (value === a || value === b) {
+        return of(value as A | B | C);
+    }
+    return failure(buildError(error, value))
+})

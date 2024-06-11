@@ -14,11 +14,12 @@
         "noFallthroughCasesInSwitch": true,
         "useUnknownInCatchVariables": true,
         "exactOptionalPropertyTypes": true,
+        "allowSyntheticDefaultImports": true,
         "target": "esnext",
         "declaration": true,
         "declarationDir": "dist",
         "emitDeclarationOnly": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "skipLibCheck": true
     },
     "include": [

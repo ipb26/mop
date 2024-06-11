@@ -1,6 +1,6 @@
 import { callOrGet, ValueOrFactory } from "value-or-factory"
 import { buildError, ErrorFactory, Mapper, Result } from "./base"
-import { failure, flatMap, map, of, orElse, pipe } from "./core"
+import { failure, flatMap, map, of, orElse, pipe, success } from "./core"
 
 /**
  * Returns the same value every time.
@@ -42,5 +42,16 @@ export const fallback = <I, O1, O2>(mapper: Mapper<I, O1>, fallbackMapper: Mappe
 export const attempt = <I, O>(mapper: Mapper<I, O>) => {
     return flatMap((value: I) => {
         return pipe(value, of, mapper, orElse(of(value)))
+    })
+}
+
+export const conditional = <I, O, D>(test: (input: I) => boolean, mapper: Mapper<I, O>, defaultTo: D) => {
+    return flatMap<I, O | D>(value => {
+        if (test(value)) {
+            return pipe(value, of, mapper)
+        }
+        else {
+            return success(defaultTo)
+        }
     })
 }

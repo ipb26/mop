@@ -2,7 +2,6 @@
 // Type converters.
 
 import { flow } from "fp-ts/function"
-import objectInspect from "object-inspect"
 import { buildError, ErrorFactory } from "./base"
 import { failure, flatMap, map, of } from "./core"
 import { tryBoth } from "./experimental"
@@ -70,7 +69,7 @@ export const isoStringToDate = () => map((input: string) => Date.parse(input))
 /**
  * Creates a mapper that converts a string to a regex object.
  */
-export const stringToRegex = (error: ErrorFactory<[unknown, string] | string> = error => "This is not a valid regex pattern" + (typeof error !== "string" ? " (" + objectInspect(error[0]) + ")" : "")) => flatMap((input: string) => {
+export const stringToRegex = (error: ErrorFactory<[unknown, string] | string> = error => "This is not a valid regex pattern" + " (" + error[0] + ")") => flatMap((input: string) => {
     try {
         const regex = regexFromString(input)
         if (regex === undefined) {

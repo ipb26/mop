@@ -1,7 +1,5 @@
-import { ErrorPath } from "./base"
-import { mapFail } from "./core"
+import { errorAt, ErrorPath, formatPath, mapFail } from "."
 import { arrayOrElement, ArrayOrElement } from "./internal"
-import { errorAt, formatPath } from "./util"
 
 /**
  * Prepend a path tree to all errors.
@@ -13,17 +11,13 @@ export const path = (paths: ArrayOrElement<ErrorPath>) => mapFail(errors => {
 /**
  * Truncate the error path.
  */
-export const truncatePaths = (count: number) => mapFail(errors => {
-    return errors.map(error => ({ ...error, path: arrayOrElement(error.path ?? []).slice(0, count) }))
-})
-
-//TODO maybe change name - this flattens errors to one level, using nested paths as a prefix for nested errors
-export const chopErrorPaths = () => {
+export const truncatePaths = () => {
     return mapFail(errors => {
         return errors.map(error => {
             return {
                 path: [],
                 value: error.value,
+                //TODO make formatting optional?
                 message: errorAt(formatPath(error.path), error.message),
             }
         })

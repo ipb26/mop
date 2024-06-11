@@ -16,7 +16,11 @@ export type ErrorPath = string | number
 /**
  * An error associated with a mapping attempt.
  */
-export type MapError = { path: ErrorPath[], message: string, value?: unknown }
+export type MapError = {
+    readonly path: ErrorPath[]
+    readonly message: string
+    readonly value: unknown
+}
 
 /**
  * A mapper converts a value from one type to another.

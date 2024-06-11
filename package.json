@@ -2,8 +2,11 @@
     "name": "mop",
     "license": "MIT",
     "version": "0.0.1",
+    "type": "module",
+    "sideEffects": false,
     "scripts": {
-        "build": "npx typedoc src/index.ts && rollup -c --configPlugin @rollup/plugin-typescript",
+        "doc": "npx typedoc src/index.ts",
+        "build": "rollup -c --configPlugin @rollup/plugin-typescript",
         "watch": "yarn build -w"
     },
     "main": "./dist/index.cjs",
@@ -11,15 +14,19 @@
     "types": "./dist/index.d.ts",
     "dependencies": {
         "fp-ts": "^2.13.1",
+        "js-base64": "^3.7.5",
         "object-inspect": "^1.12.2",
         "ramda": "^0.28.0",
+        "uuid": "^9.0.1",
         "value-or-factory": "^0.0.1"
     },
     "devDependencies": {
         "@rollup/plugin-typescript": "^11.1.4",
         "@types/object-inspect": "^1.8.1",
         "@types/ramda": "^0.28.20",
+        "@types/uuid": "^9.0.6",
         "rollup": "^3.29.4",
+        "tslib": "^2.6.2",
         "typescript": "^5.2.2"
     }
 }
