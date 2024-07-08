@@ -1,8 +1,8 @@
 import { ErrorFactory, buildError, failure, flatMap, flow, isArray, isArrayArray, isBoolean, isBooleanArray, isNumber, isNumberArray, isObject, isObjectArray, isString, isStringArray, success, tryCatch } from ".";
 
 export type JsonPrimitive = string | number | null | boolean
-export type JsonArray = Json[] | readonly Json[]
-export type JsonObject = { [K in string]: Json } & { [K in string]?: Json | undefined };
+export type JsonArray = readonly Json[]
+export type JsonObject = { readonly [K in string]: Json } & { readonly [K in string]?: Json | undefined };
 export type Json = JsonPrimitive | JsonArray | JsonObject
 
 /**

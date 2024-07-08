@@ -71,7 +71,7 @@ export const isObject = (message?: ErrorFactory<unknown>) => isType<object>("obj
 export const isObjectArray = (message?: ErrorFactory<unknown>) => flow(isArray(message), array(isObject(message)))
 export const isSymbol = (message?: ErrorFactory<unknown>) => isType<symbol>("symbol", message)
 export const isSymbolArray = (message?: ErrorFactory<unknown>) => flow(isArray(message), array(isSymbol(message)))
-export const isArray = (message: ErrorFactory<unknown> = "This value must be an array") => flow(test<unknown>(Array.isArray, message), cast<unknown[]>)
+export const isArray = (message: ErrorFactory<unknown> = "This value must be an array") => flow(test<unknown>(Array.isArray, message), cast<readonly unknown[]>)
 export const isArrayArray = (message?: ErrorFactory<unknown>) => flow(isArray(message), array(isArray(message)))
 export const isArrayOf = <T>(type: string, message: ErrorFactory<unknown> = _ => "This value must be of type " + type) => flow(isArray(message), array(isType<T>(type, message)))
 export const isDate = (message: ErrorFactory<unknown> = "This value must be a date") => flatMap((_: unknown) => _ instanceof Date ? of(_) : failure(buildError(message, _)))

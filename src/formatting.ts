@@ -15,7 +15,7 @@ export function formatPath(path?: ArrayOrElement<ErrorPath>) {
  * Prints an error into a message string. Replaces {value} with value. Also appends the value to the end if includeValues is true.
  */
 export function formatError(includeValues = false) {
-    return (errors: MapError | MapError[]) => {
+    return (errors: MapError | readonly MapError[]) => {
         return arrayOrElement(errors)
             .map(_ => _.message.replace("{value}", `${_.value}`) + (includeValues ? " (" + `${_.value}` + ")" : ""))
             .join(", ")

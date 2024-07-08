@@ -1,7 +1,7 @@
 
 import { MapError } from "./base";
 
-export type ErrorFormatter = (errors: MapError | MapError[]) => string
+export type ErrorFormatter = (errors: MapError | readonly MapError[]) => string
 
 /**
  * Regex from a string.

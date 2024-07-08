@@ -21,12 +21,14 @@ export const isFailure = <T>(result: Result<T>) => E.isLeft(result)
 /**
  * Creates a failure result from an error.
  */
-export const failure = E.left<MapError[], never>
+export function failure(error: ArrayOrElement<MapError>) {
+    return E.left([error].flat())
+}
 
 /**
  * Creates a success result from a value.
  */
-export const success = <T>(value: T) => E.right<MapError[], T>(value)
+export const success = <T>(value: T) => E.right<readonly MapError[], T>(value)
 
 /**
  * A mapper that transforms a value.
@@ -36,7 +38,7 @@ export const map = <I, O>(func: (i: I) => O): (result: Result<I>) => Result<O> =
 /**
  * Maps the failure side of a transformation result.
  */
-export const mapFail = <T>(func: (i: MapError[]) => T) => E.mapLeft(func)
+export const mapFail = <T>(func: (i: readonly MapError[]) => T) => E.mapLeft(func)
 
 /**
  * Create a new result from a value.
@@ -46,7 +48,7 @@ export const of = <T>(value: T): Result<T> => E.right(value)
 /**
  * Recovers from the failure side of a transformation result.
  */
-export const orElse = <B, A>(orElse: ValueOrFactory<Result<B>, [MapError[]]>) => (result: Result<A>) => E.orElseW((errors: MapError[]) => callOrGet(orElse, errors))(result)
+export const orElse = <B, A>(orElse: ValueOrFactory<Result<B>, [readonly MapError[]]>) => (result: Result<A>) => E.orElseW((errors: readonly MapError[]) => callOrGet(orElse, errors))(result)
 
 /**
  * Takes a simple function that converts from I to O or generates an error.
@@ -84,7 +86,7 @@ export const tap = <T>(func: (value: T) => void) => map((value: T) => {
 /**
  * Tap into a mop flow on failure (usually used for logging).
  */
-export const tapFail = (func: (value: MapError[]) => void) => mapFail(errors => {
+export const tapFail = (func: (value: readonly MapError[]) => void) => mapFail(errors => {
     func(errors)
     return errors
 })

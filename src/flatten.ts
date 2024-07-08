@@ -10,7 +10,7 @@ import { loop } from "./internal"
 export const flattenObject = <I extends Record<string, Result<unknown>>>() => {
     return flow(
         map(Object.entries),
-        loop(() => chain(value => on2(flow(flat(), path(value[0]))))),
+        loop(() => chain(value => on2(flow(flat(), path(value[0] ?? []))))),
         map(Object.fromEntries),
         cast<{ [K in keyof I]: ResultType<I[K]> }>
     )

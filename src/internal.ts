@@ -5,7 +5,7 @@ import { flattenArray } from "./flatten";
 /**
  * A union between a type and an array of the type.
  */
-export type ArrayOrElement<T> = T | T[]
+export type ArrayOrElement<T> = T | readonly T[]
 
 /**
  * Converts an array or element to an array.

@@ -23,7 +23,7 @@ export function onEachKey<I, O, K extends string | number>(mapper: (key: K) => M
     )
 }
 
-export const tryAll = <I, O>(mappers: Mapper<I, O>[], error: ErrorFactory<[I, MapError[]]>) => flatMap((input: I) => {
+export const tryAll = <I, O>(mappers: Mapper<I, O>[], error: ErrorFactory<[I, readonly MapError[]]>) => flatMap((input: I) => {
     const results = mappers.map(_ => _(of(input)))
     const separated = separate(results)
     const first = separated.right.at(0)
@@ -36,7 +36,7 @@ export const tryAll = <I, O>(mappers: Mapper<I, O>[], error: ErrorFactory<[I, Ma
 /**
  * Tries two mappers, just needs one to succeed.
  */
-export const tryBoth = <I, A, B>(a: Mapper<I, A>, b: Mapper<I, B>, error: ErrorFactory<[I, MapError[]]>) => chain((value: I) => {
+export const tryBoth = <I, A, B>(a: Mapper<I, A>, b: Mapper<I, B>, error: ErrorFactory<[I, readonly MapError[]]>) => chain((value: I) => {
     return flow(
         a,
         orElse(ae => exec(value, flow(b, mapFail(be => [...ae, ...be])))),

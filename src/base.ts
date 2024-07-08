@@ -6,7 +6,7 @@ import { ArrayOrElement } from "./internal";
 /**
  * The result of a mapping attempt. Either a value or an error.
  */
-export type Result<T> = Either<MapError[], T>
+export type Result<T> = Either<readonly MapError[], T>
 
 /**
  * One piece of an error path.
@@ -17,9 +17,11 @@ export type ErrorPath = string | number
  * An error associated with a mapping attempt.
  */
 export type MapError = {
-    readonly path: ErrorPath[]
+
+    readonly path?: readonly ErrorPath[] | undefined
     readonly message: string
     readonly value: unknown
+
 }
 
 /**
@@ -30,17 +32,17 @@ export type Mapper<I, O> = (value: Result<I>) => Result<O>
 /**
  * Used for quickly building errors. Can be a string, an object with a path and message, or an array of either the two.
  */
-export type ErrorFactory<T> = ValueOrFactory<ArrayOrElement<string | FactoryError>, [T]>
+export type ErrorFactory<T> = ValueOrFactory<ArrayOrElement<ErrorInfo | string>, [T]>
 
 /**
  * An error for a factory. Gets combined with a value and turned into a MapError.
  */
-export type FactoryError = Pick<MapError, "path" | "message">
+export type ErrorInfo = Pick<MapError, "path" | "message">
 
 /**
  * Generates an error using a factory and a value.
  */
-export function buildError<T>(factory: ErrorFactory<T>, value: T): MapError[] {
+export function buildError<T>(factory: ErrorFactory<T>, value: T): readonly MapError[] {
     if (typeof factory === "function") {
         return buildError(factory(value), value)
     }
@@ -51,7 +53,7 @@ export function buildError<T>(factory: ErrorFactory<T>, value: T): MapError[] {
         return [{ path: [], message: factory, value }]
     }
     else {
-        return [{ ...factory, value }]
+        return [{ ...factory as ErrorInfo, value }]
     }
 }
 
