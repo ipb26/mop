@@ -4,7 +4,7 @@ import { map } from "."
 import { ErrorFactory, Mapper } from "./base"
 import { loop } from "./internal"
 import { path } from "./path"
-import { test } from "./test"
+import { predicate } from "./test"
 import { cast, typed } from "./types"
 
 /**
@@ -17,13 +17,13 @@ export const arrayByIndex = <I, O>(mapper: (index: number) => Mapper<I, O>) => l
 /**
  * Creates a mapper that validates that an array has the specified number of items.
  */
-export const elems = <T>(count: number, error: ErrorFactory<readonly T[]> = _ => "Must have " + count + " elements (has " + _.length + ")") => test(_ => _.length === count, error);
-export const minElem = <T>(count: number, error: ErrorFactory<readonly T[]> = _ => "Must have at least " + count + " elements (has " + _.length + ")") => test(_ => _.length >= count, error);
-export const maxElem = <T>(count: number, error: ErrorFactory<readonly T[]> = _ => "Must have at most " + count + " elements (has " + _.length + ")") => test(_ => _.length <= count, error);
+export const elems = <T>(count: number, error: ErrorFactory<readonly T[]> = _ => "Must have " + count + " elements (has " + _.length + ")") => predicate(_ => _.length === count, error);
+export const minElem = <T>(count: number, error: ErrorFactory<readonly T[]> = _ => "Must have at least " + count + " elements (has " + _.length + ")") => predicate(_ => _.length >= count, error);
+export const maxElem = <T>(count: number, error: ErrorFactory<readonly T[]> = _ => "Must have at most " + count + " elements (has " + _.length + ")") => predicate(_ => _.length <= count, error);
 export const oneElem = <I>(emptyError: ErrorFactory<readonly I[]> = "This array is empty.", multiError: ErrorFactory<readonly I[]> = "This array has multiple items") => flow(
     typed<readonly I[]>,
-    test(_ => _.length !== 0, emptyError),
-    test(_ => _.length < 2, multiError),
+    predicate(_ => _.length !== 0, emptyError),
+    predicate(_ => _.length < 2, multiError),
     at(0),
     cast<I>
 )

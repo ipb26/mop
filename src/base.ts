@@ -1,7 +1,6 @@
 import * as E from "fp-ts/lib/Either";
 import { Either } from 'fp-ts/lib/Either';
 import { ValueOrFactory } from "value-or-factory";
-import { ArrayOrElement } from "./internal";
 
 /**
  * The result of a mapping attempt. Either a value or an error.
@@ -32,7 +31,7 @@ export type Mapper<I, O> = (value: Result<I>) => Result<O>
 /**
  * Used for quickly building errors. Can be a string, an object with a path and message, or an array of either the two.
  */
-export type ErrorFactory<T> = ValueOrFactory<ArrayOrElement<ErrorInfo | string>, [T]>
+export type ErrorFactory<T> = ValueOrFactory<undefined | ErrorInfo | string | readonly ErrorFactory<T>[], [T]>
 
 /**
  * An error for a factory. Gets combined with a value and turned into a MapError.
@@ -51,6 +50,9 @@ export function buildError<T>(factory: ErrorFactory<T>, value: T): readonly MapE
     }
     else if (typeof factory === "string") {
         return [{ path: [], message: factory, value }]
+    }
+    else if (factory === undefined) {
+        return []
     }
     else {
         return [{ ...factory as ErrorInfo, value }]

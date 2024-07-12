@@ -6,10 +6,18 @@ import { ArrayOrElement } from "./internal";
 /**
  * This is the base of all validators. Performs a test, throws an error if it fails. If it passes, the original value is returned.
  */
-export const test = <T>(predicates: ArrayOrElement<Predicate<T>>, error: ErrorFactory<T> = "This value is invalid.") => flatMap((input: T) => {
+export const predicate = <T>(predicates: ArrayOrElement<Predicate<T>>, error: ErrorFactory<T> = "This value is invalid.") => flatMap((input: T) => {
     const failures = (Array.isArray(predicates) ? predicates : [predicates]).map(_ => _(input)).filter(_ => !_)
     if (failures.length > 0) {
         return failure(buildError(error, input))
+    }
+    return of(input)
+})
+
+export const test = <T>(testers: ArrayOrElement<(value: T) => ArrayOrElement<ErrorFactory<T>>>) => flatMap((input: T) => {
+    const errors = [testers].flat().flatMap(tester => tester(input))
+    if (errors.length > 0) {
+        return failure(buildError(errors, input))
     }
     return of(input)
 })

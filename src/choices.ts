@@ -1,5 +1,5 @@
 import { flow } from "fp-ts/function"
-import { buildError, ErrorFactory, failure, flatMap, Mapper, of, test } from "."
+import { buildError, ErrorFactory, failure, flatMap, Mapper, of, predicate } from "."
 
 /**
  * Call the factory function and throw an error if the returned value is undefined.
@@ -24,8 +24,8 @@ export const mapChoices = <K, V>(map: Map<K, V>, error?: ErrorFactory<K>) => loo
 /**
  * Enforces the the item is one of the values present in an array.
  */
-export const isIn = <T>(array: T[], error?: ErrorFactory<T>) => flow(test(_ => array.includes(_), error))
-export const isInSet = <T>(set: Set<T>, error?: ErrorFactory<T>) => test(_ => set.has(_), error)
+export const isIn = <T>(array: T[], error?: ErrorFactory<T>) => flow(predicate(_ => array.includes(_), error))
+export const isInSet = <T>(set: Set<T>, error?: ErrorFactory<T>) => predicate(_ => set.has(_), error)
 
 /**
  * Narrows a value down to a union of two types.

@@ -5,7 +5,7 @@ import { array } from "./array";
 import { buildError, ErrorFactory, Result } from "./base";
 import { failure, flatMap, map, of } from "./core";
 import { maybe, maybeOr, maybeOrNull, maybeOrUndefined } from "./optionality";
-import { test } from "./test";
+import { predicate } from "./test";
 
 export const typed = <T>(value: Result<T>) => value
 export const typedMaybe = <T>(value: Result<T | null | undefined>) => maybe(typed<T>)(value)
@@ -55,10 +55,10 @@ export const arrayBufferType = typed<ArrayBuffer>
  */
 export const arrayBufferViewType = typed<ArrayBufferView>
 
-export const isNull = (message?: ErrorFactory<unknown>) => test<unknown>(_ => _ === null, message)
-export const isUndefined = (message?: ErrorFactory<unknown>) => test<unknown>(_ => _ === undefined, message)
+export const isNull = (message?: ErrorFactory<unknown>) => predicate<unknown>(_ => _ === null, message)
+export const isUndefined = (message?: ErrorFactory<unknown>) => predicate<unknown>(_ => _ === undefined, message)
 export const isInstanceOf = <T, A extends unknown[]>(con: new (...args: A) => T, message: ErrorFactory<unknown> = "This value must be an instance of " + con.name) => flatMap((_: unknown) => _ instanceof con ? of(_) : failure(buildError(message, _)))
-export const isType = <T>(type: string, message: ErrorFactory<unknown> = _ => "This value must be of type " + type) => flow(test<unknown>(_ => typeof _ === type, message), cast<T>)
+export const isType = <T>(type: string, message: ErrorFactory<unknown> = _ => "This value must be of type " + type) => flow(predicate<unknown>(_ => typeof _ === type, message), cast<T>)
 export const isString = (message?: ErrorFactory<unknown>) => isType<string>("string", message)
 export const isStringArray = (message?: ErrorFactory<unknown>) => flow(isArray(message), array(isString(message)))
 export const isBoolean = (message?: ErrorFactory<unknown>) => isType<boolean>("boolean", message)
@@ -71,7 +71,7 @@ export const isObject = (message?: ErrorFactory<unknown>) => isType<object>("obj
 export const isObjectArray = (message?: ErrorFactory<unknown>) => flow(isArray(message), array(isObject(message)))
 export const isSymbol = (message?: ErrorFactory<unknown>) => isType<symbol>("symbol", message)
 export const isSymbolArray = (message?: ErrorFactory<unknown>) => flow(isArray(message), array(isSymbol(message)))
-export const isArray = (message: ErrorFactory<unknown> = "This value must be an array") => flow(test<unknown>(Array.isArray, message), cast<readonly unknown[]>)
+export const isArray = (message: ErrorFactory<unknown> = "This value must be an array") => flow(predicate<unknown>(Array.isArray, message), cast<readonly unknown[]>)
 export const isArrayArray = (message?: ErrorFactory<unknown>) => flow(isArray(message), array(isArray(message)))
 export const isArrayOf = <T>(type: string, message: ErrorFactory<unknown> = _ => "This value must be of type " + type) => flow(isArray(message), array(isType<T>(type, message)))
 export const isDate = (message: ErrorFactory<unknown> = "This value must be a date") => flatMap((_: unknown) => _ instanceof Date ? of(_) : failure(buildError(message, _)))
