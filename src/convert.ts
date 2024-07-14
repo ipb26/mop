@@ -64,7 +64,7 @@ export const dateToIsoString = () => map((input: Date) => input.toISOString())
 /**
  * Creates a mapper that converts a timestamp to a date. Uses Date.parse method.
  */
-export const isoStringToDate = () => map((input: string) => Date.parse(input))
+export const stringToDate = () => map((input: string) => Date.parse(input))
 
 /**
  * Creates a mapper that converts a string to a regex object.
