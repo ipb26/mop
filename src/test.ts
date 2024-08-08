@@ -1,6 +1,6 @@
 import { flow } from "fp-ts/function";
 import { Predicate } from "fp-ts/Predicate";
-import { buildError, ErrorFactory, failure, flatMap, Mapper, of, split, to1 } from ".";
+import { buildError, ErrorFactory, ErrorInput, failure, flatMap, Mapper, of, split, to1 } from ".";
 import { ArrayOrElement } from "./internal";
 
 /**
@@ -14,8 +14,8 @@ export const predicate = <T>(predicates: ArrayOrElement<Predicate<T>>, error: Er
     return of(input)
 })
 
-export const test = <T>(testers: ArrayOrElement<(value: T) => ArrayOrElement<ErrorFactory<T>>>) => flatMap((input: T) => {
-    const errors = [testers].flat().flatMap(tester => tester(input))
+export const test = <T>(testers: ArrayOrElement<(value: T) => ArrayOrElement<ErrorInput>>) => flatMap((input: T) => {
+    const errors = buildError([testers].flat().flatMap(tester => tester(input)), input)
     if (errors.length > 0) {
         return failure(buildError(errors, input))
     }

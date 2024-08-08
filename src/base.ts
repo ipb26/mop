@@ -28,10 +28,12 @@ export type MapError = {
  */
 export type Mapper<I, O> = (value: Result<I>) => Result<O>
 
+export type ErrorInput = undefined | ErrorInfo | string
+
 /**
  * Used for quickly building errors. Can be a string, an object with a path and message, or an array of either the two.
  */
-export type ErrorFactory<T> = ValueOrFactory<undefined | ErrorInfo | string | readonly ErrorFactory<T>[], [T]>
+export type ErrorFactory<T> = ValueOrFactory<ErrorInput | readonly ErrorFactory<T>[], [T]>
 
 /**
  * An error for a factory. Gets combined with a value and turned into a MapError.
