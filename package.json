@@ -13,7 +13,7 @@
     "module": "./dist/index.mjs",
     "types": "./dist/index.d.ts",
     "dependencies": {
-        "fp-ts": "^2.13.1",
+        "fp-ts": "^2.16.9",
         "js-base64": "^3.7.5",
         "object-inspect": "^1.12.2",
         "ramda": "^0.28.0",
