@@ -3,7 +3,7 @@
 
 import { flow } from "fp-ts/function"
 import { buildError, ErrorFactory } from "./base"
-import { failure, flatMap, map, of } from "./core"
+import { failure, flatMap, map, of, success } from "./core"
 import { tryBoth } from "./experimental"
 import { maybe } from "./optionality"
 import { blankToEmpty, numeric } from "./string"
@@ -64,7 +64,22 @@ export const dateToIsoString = () => map((input: Date) => input.toISOString())
 /**
  * Creates a mapper that converts a timestamp to a date. Uses Date.parse method.
  */
-export const stringToDate = () => map((input: string) => Date.parse(input))
+export const stringToDate = () => flatMap((input: string) => {
+    if (input.trim() === "") {
+        return failure(buildError("This is not a valid date string", input))
+    }
+    try {
+        const parsed = new Date(Date.parse(input))
+        parsed.toISOString()
+        return success(parsed)
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            return failure(buildError(e.message, input))
+        }
+        return failure(buildError("Invalid date.", input))
+    }
+})
 
 /**
  * Creates a mapper that converts a string to a regex object.

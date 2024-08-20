@@ -38,7 +38,7 @@ export type ErrorFactory<T> = ValueOrFactory<ErrorInput | readonly ErrorFactory<
 /**
  * An error for a factory. Gets combined with a value and turned into a MapError.
  */
-export type ErrorInfo = Pick<MapError, "path" | "message">
+export type ErrorInfo = Pick<MapError, "path" | "message" | "value">
 
 /**
  * Generates an error using a factory and a value.
