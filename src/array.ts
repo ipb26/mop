@@ -1,6 +1,6 @@
 
 import { flow } from "fp-ts/function"
-import { map } from "."
+import { map, mapFail } from "."
 import { ErrorFactory, Mapper } from "./base"
 import { loop } from "./internal"
 import { path } from "./path"
@@ -13,6 +13,26 @@ import { cast, typed } from "./types"
 export const array = <I, O>(mapper: Mapper<I, O>) => loop(index => flow(mapper, path(index)))
 export const flatArray = <I, O>(mapper: Mapper<I, readonly O[]>) => flow(loop(index => flow(mapper, path(index))), map(_ => _.flat()))
 export const arrayByIndex = <I, O>(mapper: (index: number) => Mapper<I, O>) => loop(index => flow(mapper(index), path(index)))
+
+export function eachLine<O>(mapper: Mapper<string, O>): Mapper<string, readonly O[]> {
+    return flow(
+        typed<string>,
+        map(string => string.split("\n")),
+        arrayByIndex(index => {
+            return flow(
+                mapper,
+                mapFail(errors => {
+                    return errors.map(error => {
+                        return {
+                            ...error,
+                            message: "Line #" + (index + 1) + ": " + error.message,
+                        }
+                    })
+                })
+            )
+        })
+    )
+}
 
 /**
  * Creates a mapper that validates that an array has the specified number of items.
