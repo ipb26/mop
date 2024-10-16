@@ -10,14 +10,16 @@ export type Result<T> = Either<readonly MapError[], T>
 /**
  * One piece of an error path.
  */
-export type ErrorPath = string | number
+export type ErrorPathComponent = string | number
+
+export type ErrorPath = readonly ErrorPathComponent[]
 
 /**
  * An error associated with a mapping attempt.
  */
 export type MapError = {
 
-    readonly path?: readonly ErrorPath[] | undefined
+    readonly path?: ErrorPath | undefined
     readonly message: string
     readonly value: unknown
 

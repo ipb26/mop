@@ -12,9 +12,9 @@ export type ArrayOrElement<T> = T | readonly T[]
  */
 export function arrayOrElement<T>(value: ArrayOrElement<T>) {
     if (Array.isArray(value)) {
-        return value
+        return value as T[]
     }
-    return [value]
+    return [value as T]
 }
 
 /**

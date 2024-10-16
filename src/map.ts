@@ -1,5 +1,5 @@
 import { flow } from "fp-ts/function";
-import { ErrorPath, Mapper } from "./base";
+import { ErrorPathComponent, Mapper } from "./base";
 import { chain, map } from "./core";
 import { ArrayOrElement, loop } from "./internal";
 import { path } from "./path";
@@ -9,7 +9,7 @@ import { typed } from "./types";
 /**
  * Maps every element in a map. The mapper can be determined by the key if necessary.
  */
-export function onEach<I, O, K>(mapper: (key: K) => Mapper<I, O>, keyToPath: (key: K) => ArrayOrElement<ErrorPath>) {
+export function onEach<I, O, K>(mapper: (key: K) => Mapper<I, O>, keyToPath: (key: K) => ArrayOrElement<ErrorPathComponent>) {
     return flow(
         typed<Map<K, I>>,
         map(_ => [..._.entries()]),

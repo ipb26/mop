@@ -1,10 +1,10 @@
-import { ErrorPath, MapError } from "."
+import { ErrorPathComponent, MapError } from "."
 import { ArrayOrElement, arrayOrElement } from "./internal"
 
 /**
  * Utility to format an error path.
  */
-export function formatPath(path?: ArrayOrElement<ErrorPath>) {
+export function formatPath(path?: ArrayOrElement<ErrorPathComponent>) {
     if (path === undefined) {
         return ""
     }

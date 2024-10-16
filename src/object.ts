@@ -1,7 +1,8 @@
 
 import { flow } from "fp-ts/function"
+import { separate } from "fp-ts/lib/Array"
 import { mapObjIndexed, pick as ramdaPick } from "ramda"
-import { InputType, Mapper, OutputType, Result, cast, constant, exec, flattenObject, map, noOp, path, split, swap, typed } from "."
+import { InputType, Mapper, OutputType, Result, cast, constant, exec, failure, flatMap, flattenObject, isLeft, map, noOp, path, split, success, swap, typed } from "."
 
 type OptionalKeys<S> = { [K in keyof S]: undefined extends S[K] ? K : never }[keyof S]
 type RequiredKeys<S> = { [K in keyof S]: undefined extends S[K] ? never : K }[keyof S]
@@ -20,6 +21,31 @@ export function rawObject<S extends ObjectSchema>(schema: S) {
 
 export type ObjectOutput<S extends ObjectSchema> = { [K in keyof S]: OutputType<S[K]> }
 export type ObjectInput<S extends ObjectSchema> = { [K in RequiredKeys<{ [K in keyof S]: InputType<S[K]> }>]: InputType<S[K]> } & { [K in OptionalKeys<{ [K in keyof S]: InputType<S[K]> }>]?: InputType<S[K]> }
+
+export function record<K extends string | number | symbol, V>(key: Mapper<string | number | symbol, K>, value: Mapper<unknown, V>): Mapper<object, Record<K, V>> {
+    return flatMap((input: object) => {
+        const entries = Object.entries(input)
+        const mapped = entries.map(([k, v]) => {
+            const mappedKey = exec(k, flow(key, path(k)))
+            const mappedValue = exec(v, flow(value, path(k)))
+            if (isLeft(mappedKey)) {
+                return mappedKey //TODO label?
+            }
+            if (isLeft(mappedValue)) {
+                return mappedValue //TODO label
+            }
+            return success([
+                mappedKey.right,
+                mappedValue.right
+            ] as const)
+        })
+        const x = separate(mapped)
+        if (x.left.length > 0) {
+            return failure(x.left.flat())
+        }
+        return success(Object.fromEntries(x.right) as Record<K, V>)
+    })
+}
 
 export function object<S extends ObjectSchema>(schema: S) {
     return flow(
