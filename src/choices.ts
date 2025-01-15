@@ -20,11 +20,12 @@ export const lookup = <K, V>(finder: (key: K) => V | undefined, error: ErrorFact
 export const choices = <K extends string | number | symbol, V>(record: Record<K, V>, error?: ErrorFactory<K>) => lookup(key => record[key], error)
 export const choicesByValue = <K extends string | number | symbol, V>(record: Record<K, V>, error?: ErrorFactory<V>) => lookup(key => Object.entries(record).filter(_ => _[1] === key).map(_ => _[0] as K)[0], error)
 export const mapChoices = <K, V>(map: Map<K, V>, error?: ErrorFactory<K>) => lookup(key => map.get(key), error)
+export const arrayChoices = <I, O extends I>(array: readonly O[], error?: ErrorFactory<I>) => lookup(_ => array.find(option => _ === option), error)
 
 /**
  * Enforces the the item is one of the values present in an array.
  */
-export const isIn = <T>(array: T[], error?: ErrorFactory<T>) => flow(predicate(_ => array.includes(_), error))
+export const isIn = <T>(array: readonly T[], error?: ErrorFactory<T>) => flow(predicate(_ => array.includes(_), error))
 export const isInSet = <T>(set: Set<T>, error?: ErrorFactory<T>) => predicate(_ => set.has(_), error)
 
 /**
