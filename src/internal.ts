@@ -22,7 +22,7 @@ export function arrayOrElement<T>(value: ArrayOrElement<T>) {
  */
 export function loop<I, O>(mapper: (index: number) => Mapper<I, O>) {
     return flow(
-        map((input: I[] | readonly I[]) => input.map((value, index) => exec(value, mapper(index)))),
+        map((input: readonly I[]) => input.map((value, index) => exec(value, mapper(index)))),
         flattenArray()
     )
 }

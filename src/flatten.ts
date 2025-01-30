@@ -20,14 +20,14 @@ export const flattenObject = <I extends Record<string, Result<unknown>>>() => {
  * Creates a mapper that turns an array of results into a @link Result of an array.
  */
 export const flattenArray = <T>() => flow(
-    typed<Result<T>[]>,
+    typed<readonly Result<T>[]>,
     flatMap(input => {
-        const separated = separate(input)
+        const separated = separate(input as Result<T>[])
         if (separated.left.length > 0) {
             return failure(separated.left.flat())
         }
         else {
-            return of(separated.right)
+            return of(separated.right as readonly T[])
         }
     })
 )
