@@ -10,12 +10,30 @@ import { tryCatch } from "./try-catch"
  * @param message An optional custom error message.
  * @returns A mapper that returns a value or error if undefined.
  */
-export const req = <T = unknown>(error: ErrorFactory<T | undefined | null> = "This value is required"): Mapper<T | undefined | null, T> => flatMap(value => {
-    if (value === undefined || value === null) {
-        return failure(buildError(error, value))
-    }
-    return of(value)
-})
+export function req<T = unknown>(error: ErrorFactory<T | undefined | null> = "This value is required") {
+    return flatMap((value: T | undefined | null) => {
+        if (value === undefined || value === null) {
+            return failure(buildError(error, value))
+        }
+        return of(value)
+    })
+}
+export function reqUndefined<T = unknown>(error: ErrorFactory<T | undefined> = "This value is required") {
+    return flatMap((value: T | undefined) => {
+        if (value === undefined) {
+            return failure(buildError(error, value))
+        }
+        return of(value)
+    })
+}
+export function reqNull<T = unknown>(error: ErrorFactory<T | null> = "This value is required") {
+    return flatMap((value: T | null) => {
+        if (value === null) {
+            return failure(buildError(error, value))
+        }
+        return of(value)
+    })
+}
 
 /**
  * Creates a mapper that returns a default value if the input is null or undefined.
@@ -36,7 +54,7 @@ export const orNull = <I>(result: Result<I | null | undefined>) => or<I, null>(n
  * @param mapper Mapper
  * @returns New mapper that skips empty values.
  */
-export const maybe = <I, O>(mapper: Mapper<I, O>) => flatMap<I | undefined | null, O | undefined | null>(value => {
+export const maybe = <I, O>(mapper: Mapper<I, O>) => flatMap((value: I | undefined | null) => {
     if (value === undefined) {
         return of(undefined)
     }
@@ -45,6 +63,18 @@ export const maybe = <I, O>(mapper: Mapper<I, O>) => flatMap<I | undefined | nul
     }
     return exec(value, mapper)
 })
+export const maybeUndefined = <I, O>(mapper: Mapper<I, O>) => flatMap((value: I | undefined) => {
+    if (value === undefined) {
+        return of(undefined)
+    }
+    return exec(value, mapper)
+})
+export const maybeNull = <I, O>(mapper: Mapper<I, O>) => flatMap((value: I | null) => {
+    if (value === null) {
+        return of(null)
+    }
+    return exec(value, mapper)
+})
 export const maybeOr = <I, O>(mapper: Mapper<I, O>, factory: ValueOrFactory<O>) => flow(maybe(mapper), or(factory))
-export const maybeOrNull = <I, O>(mapper: Mapper<I, O>) => flow(maybe(mapper), orNull)
 export const maybeOrUndefined = <I, O>(mapper: Mapper<I, O>) => flow(maybe(mapper), orUndefined)
+export const maybeOrNull = <I, O>(mapper: Mapper<I, O>) => flow(maybe(mapper), orNull)

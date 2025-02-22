@@ -5,7 +5,7 @@ import { flow } from "fp-ts/function";
 import { ErrorFactory, filter, map, maybe, orNull, orUndefined, predicate, req } from ".";
 
 /**
- * Creates a mapper that trims a string.
+ * Creates a mapper that trims a string. 
  */
 export const trim = () => map((input: string) => input.trim())
 

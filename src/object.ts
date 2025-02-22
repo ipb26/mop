@@ -22,15 +22,15 @@ export function rawObject<S extends ObjectSchema>(schema: S) {
 export type ObjectOutput<S extends ObjectSchema> = { [K in keyof S]: OutputType<S[K]> }
 export type ObjectInput<S extends ObjectSchema> = { [K in RequiredKeys<{ [K in keyof S]: InputType<S[K]> }>]: InputType<S[K]> } & { [K in OptionalKeys<{ [K in keyof S]: InputType<S[K]> }>]?: InputType<S[K]> }
 
-export function record<K extends string | number | symbol, V>(key: Mapper<string | number | symbol, K>, value: Mapper<unknown, V>): Mapper<object, Record<K, V>> {
+export function record<K extends string | number | symbol, V>(key: Mapper<string | number | symbol, K>, value: (key: K) => Mapper<unknown, V>): Mapper<object, Record<K, V>> {
     return flatMap((input: object) => {
         const entries = Object.entries(input)
         const mapped = entries.map(([k, v]) => {
             const mappedKey = exec(k, flow(key, path(k)))
-            const mappedValue = exec(v, flow(value, path(k)))
             if (isLeft(mappedKey)) {
                 return mappedKey //TODO label?
             }
+            const mappedValue = exec(v, flow(value(mappedKey.right), path(k)))
             if (isLeft(mappedValue)) {
                 return mappedValue //TODO label
             }
