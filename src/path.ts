@@ -15,9 +15,7 @@ export const truncatePaths = () => {
     return mapFail(errors => {
         return errors.map(error => {
             return {
-                //path: [] satisfies ErrorPath[],
                 value: error.value,
-                //TODO make formatting optional?
                 message: errorAt(formatPath(error.path), error.message),
             }
         })

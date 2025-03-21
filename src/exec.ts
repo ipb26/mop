@@ -13,7 +13,6 @@ export const exec = <I, O>(value: I, mapper: (value: Result<I>) => O) => pipe(va
  * Throws if there is an error, otherwise returns the value.
  */
 export const execOrThrow = <I, O>(value: I, mapper: Mapper<I, O>, formatter?: ErrorFormatter) => pipe(value, of, mapper, throwError(formatter))
-
 export const execOrGroup = <I, O>(value: I, mapper: Mapper<I, O>) => pipe(value, of, mapper, groupErrors())
 export const execOrMessages = <I, O>(value: I, mapper: Mapper<I, O>, formatter?: ErrorFormatter) => pipe(value, of, mapper, groupMessages(formatter))
 export const execOrCombinedMessages = <I, O>(value: I, mapper: Mapper<I, O>, formatter?: ErrorFormatter) => pipe(value, of, mapper, combineMessages(formatter))

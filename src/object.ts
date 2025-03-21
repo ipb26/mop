@@ -28,11 +28,11 @@ export function record<K extends string | number | symbol, V>(key: Mapper<string
         const mapped = entries.map(([k, v]) => {
             const mappedKey = exec(k, flow(key, path(k)))
             if (isLeft(mappedKey)) {
-                return mappedKey //TODO label?
+                return mappedKey
             }
             const mappedValue = exec(v, flow(value(mappedKey.right), path(k)))
             if (isLeft(mappedValue)) {
-                return mappedValue //TODO label
+                return mappedValue
             }
             return success([
                 mappedKey.right,
