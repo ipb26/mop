@@ -1,4 +1,5 @@
 import { flow } from "fp-ts/function"
+import { indexBy } from "ramda"
 import { buildError, ErrorFactory, failure, flatMap, Mapper, of, predicate } from "."
 
 /**
@@ -17,10 +18,13 @@ export const lookup = <K, V>(finder: (key: K) => V | undefined, error: ErrorFact
 /**
  * Choice mappers. Tries to pull from an object or map. If the value is not found, throws an error.
  */
-export const choices = <K extends string | number | symbol, V>(record: Record<K, V>, error?: ErrorFactory<K>) => lookup(key => record[key], error)
-export const choicesByValue = <K extends string | number | symbol, V>(record: Record<K, V>, error?: ErrorFactory<V>) => lookup(key => Object.entries(record).filter(_ => _[1] === key).map(_ => _[0] as K)[0], error)
-export const mapChoices = <K, V>(map: Map<K, V>, error?: ErrorFactory<K>) => lookup(key => map.get(key), error)
-export const arrayChoices = <I, O extends I>(array: readonly O[], error?: ErrorFactory<I>) => lookup(_ => array.find(option => _ === option), error)
+export function choicesIndexed<K extends string | number, V>(items: readonly V[], index: (value: V) => K, error?: ErrorFactory<K> | undefined) {
+    return choices(indexBy(index, items), error)
+}
+export const choices = <K extends string | number | symbol, V>(record: Record<K, V>, error?: ErrorFactory<K> | undefined) => lookup(key => record[key], error)
+export const choicesByValue = <K extends string | number | symbol, V>(record: Record<K, V>, error?: ErrorFactory<V> | undefined) => lookup(key => Object.entries(record).filter(_ => _[1] === key).map(_ => _[0] as K)[0], error)
+export const mapChoices = <K, V>(map: Map<K, V>, error?: ErrorFactory<K> | undefined) => lookup(key => map.get(key), error)
+export const arrayChoices = <I, O extends I>(array: readonly O[], error?: ErrorFactory<I> | undefined) => lookup(_ => array.find(option => _ === option), error)
 
 /**
  * Enforces the the item is one of the values present in an array.
